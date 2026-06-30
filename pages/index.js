@@ -1,15 +1,17 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import styles from '../styles/HomeLanding.module.css';
 import ScoreLeaderboard from '../components/ScoreLeaderboard';
+import { useAudio } from '../hooks/useAudio';
 
-export default function HomeLandingPortal() {
+export default function HomeLandingPortal({ audioContext}) {
   const router = useRouter();
-
+  const { audioRef, isPlaying, toggleMusic, changeTrack, src } = audioContext;
   const [username, setUsername] = useState('');
   const [isLaunching, setIsLaunching] = useState(false);
   const [loadingStep, setLoadingStep] = useState(0);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const [mousePosition, setMousePosition] = useState({
     x: 0,
@@ -118,6 +120,30 @@ export default function HomeLandingPortal() {
   };
 
   return (
+    
+    <div className={styles.portalContainer}>
+        
+      {/* MUSIC CONTROLS */}
+      <div style={{ position: 'fixed', top: '20px', right: '20px', zIndex: 100, margin:6 }}>
+        <button onClick={toggleMusic} style={{ background: 'transparent', border: 'none', cursor: 'pointer', fontSize: '15px' }}>
+          {isPlaying ? '🔊' : '🔇'}
+        </button>
+        
+        <button onClick={() => setIsMenuOpen(!isMenuOpen)} style={{ marginLeft: '6px', background: 'transparent',border: 'none', color: '#00f2ff', cursor: 'pointer' }}>
+          {isMenuOpen ? 'TRACK SELECT 🔼':'TRACK SELECT 🔽'}
+        </button>
+      </div>
+
+      {/* UNIQUE TRACK SELECTOR POPUP */}
+      {isMenuOpen && (
+        <div className={styles.trackSelectorPopup}>
+          <h3 style={{ fontSize: '10px', marginBottom: '10px', color: '#00f2ff' }}>SELECT AUDIO STREAM</h3>
+          <button className={styles.trackOption} onClick={() => changeTrack('/audio/Akon - Lonely.mp3')}>[03] Akon - Lonely</button>
+          <button className={styles.trackOption} onClick={() => changeTrack('/audio/Mood (Lofi).mp3')}>[01] MOOD LOFI</button>
+          <button className={styles.trackOption} onClick={() => changeTrack('/audio/LET THE WORLD BURN - Chris Grey.mp3')}>[02] LET THE WORLD BURN</button>
+        </div>
+      )}
+
     <div className={styles.portalContainer}>
       <Head>
         <title>NEON RIDER GLOBAL</title>
@@ -185,6 +211,7 @@ export default function HomeLandingPortal() {
         </div>
       )}
 
+
       {/* MAIN UI */}
       <div className={styles.layoutWrapper}>
         <span className={styles.cornerTL}></span>
@@ -242,6 +269,8 @@ export default function HomeLandingPortal() {
           ? 'HANDSHAKE IN PROGRESS'
           : 'SYSTEM READY'}
       </footer>
+    </div>
+
     </div>
   );
 }

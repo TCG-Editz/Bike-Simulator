@@ -9,11 +9,16 @@ import GameCanvas from '../components/GameCanvas';
 import ScoreLeaderboard from '../components/ScoreLeaderboard';
 import { useGameControls } from '../hooks/useGameControls';
 import { useAudioEngine } from '../hooks/useAudioEngine';
+import styles from '../styles/HomeLanding.module.css';
+import { useAudio } from '../hooks/useAudio';
 
-function MasterArcadeAppPortal() {
+
+function MasterArcadeAppPortal({ audioContext}) {
   const router = useRouter();
+  const { audioRef, isPlaying, toggleMusic, changeTrack, src } = audioContext;
   const controlsRef = useGameControls();
   const audioEngine = useAudioEngine();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const [currentUser, setCurrentUser] = useState('GUEST_USER');
   const [gameState, setGameState] = useState('menu');
@@ -142,6 +147,28 @@ function MasterArcadeAppPortal() {
   if (!isClientMounted) return null;
 
   return (
+
+    <div className={styles.portalContainer}>
+      {/* MUSIC CONTROLS */}
+      <div style={{ position: 'fixed', top: '20px', right: '20px', zIndex: 100, margin:6 }}>
+        <button onClick={toggleMusic} style={{ background: 'transparent', border: 'none', cursor: 'pointer', fontSize: '15px' }}>
+          {isPlaying ? '🔊' : '🔇'}
+        </button>
+        
+        <button onClick={() => setIsMenuOpen(!isMenuOpen)} style={{ marginLeft: '6px', background: 'transparent',border: 'none', color: '#00f2ff', cursor: 'pointer' }}>
+          {isMenuOpen ? 'TRACK SELECT 🔽':'TRACK SELECT 🔼'}
+        </button>
+      </div>
+
+      {/* UNIQUE TRACK SELECTOR POPUP */}
+      {isMenuOpen && (
+        <div className={styles.trackSelectorPopup}>
+          <h3 style={{ fontSize: '12px', marginBottom: '10px', color: '#00f2ff' }}>SELECT AUDIO STREAM</h3>
+          <button className={styles.trackOption} onClick={() => changeTrack('/audio/Akon - Lonely.mp3')}>[03] Akon - Lonely</button>
+          <button className={styles.trackOption} onClick={() => changeTrack('/audio/Mood (Lofi).mp3')}>[01] MOOD LOFI</button>
+          <button className={styles.trackOption} onClick={() => changeTrack('/audio/LET THE WORLD BURN - Chris Grey.mp3')}>[02] LET THE WORLD BURN</button>
+        </div>
+      )}
     <div className="relative w-screen h-screen overflow-hidden select-none bg-[#020409] m-0 p-0 text-white font-mono">
       <Head><title>NEON RIDER</title></Head>
       <div className="absolute inset-0 z-10 block w-full h-full">
@@ -173,6 +200,7 @@ function MasterArcadeAppPortal() {
           )}
         </div>
       </div>
+    </div>
     </div>
   );
 }
