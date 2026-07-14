@@ -80,3 +80,11 @@ export function useGameControls() {
 
   return keysRef;
 }
+
+/*
+
+  need to add some gyro controls and need some UI changes too in the following software
+  need to find better glib file
+  need more upgradation on music fields 
+
+*/

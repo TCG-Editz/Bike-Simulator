@@ -138,9 +138,15 @@ export default function HomeLandingPortal({ audioContext}) {
       {isMenuOpen && (
         <div className={styles.trackSelectorPopup}>
           <h3 style={{ fontSize: '10px', marginBottom: '10px', color: '#00f2ff' }}>SELECT AUDIO STREAM</h3>
-          <button className={styles.trackOption} onClick={() => changeTrack('/audio/Akon - Lonely.mp3')}>[03] Akon - Lonely</button>
-          <button className={styles.trackOption} onClick={() => changeTrack('/audio/Mood (Lofi).mp3')}>[01] MOOD LOFI</button>
-          <button className={styles.trackOption} onClick={() => changeTrack('/audio/LET THE WORLD BURN - Chris Grey.mp3')}>[02] LET THE WORLD BURN</button>
+          <button className={styles.trackOption} onClick={() => changeTrack('/audio/Akon - Lonely.mp3')}>[01] Akon - Lonely</button>
+          <button className={styles.trackOption} onClick={() => changeTrack('/audio/Mood (Lofi).mp3')}>[02] MOOD LOFI</button>
+          <button className={styles.trackOption} onClick={() => changeTrack('/audio/LET THE WORLD BURN - Chris Grey.mp3')}>[03] LET THE WORLD BURN</button>
+          <button className={styles.trackOption} onClick={() => changeTrack('/audio/なとり.mp3')}>[04] Natori - なとり</button>
+          <button className={styles.trackOption} onClick={() => changeTrack('/audio/All In.mp3')}>[05] ALL IN</button>
+          <button className={styles.trackOption} onClick={() => changeTrack('/audio/Crush.mp3')}>[06] Crush</button>
+          <button className={styles.trackOption} onClick={() => changeTrack('/audio/The Good Times.mp3')}>[07] The Good Times</button>
+          <button className={styles.trackOption} onClick={() => changeTrack('/audio/Odoriko.mp3')}>[08] 踊り子</button>
+          <button className={styles.trackOption} onClick={() => changeTrack('/audio/Lust.mp3')}>[09] Lust</button>
         </div>
       )}
 
