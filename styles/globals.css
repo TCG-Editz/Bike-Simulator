@@ -1,105 +1,345 @@
 @import "tailwindcss";
 
-@layer base {
-  html, body, #__next {
-    margin: 0;
-    padding: 0;
-    width: 100vw;
-    height: 100vh;
-    max-width: 100vw;
-    max-height: 100vh;
-    overflow: hidden;
-    background-color: #02040a;
-  }
+/* =====================================================
+   GLOBAL RESET
+   ===================================================== */
+
+html,
+body,
+#__next {
+  margin: 0;
+  padding: 0;
+
+  width: 100%;
+  min-width: 100%;
+
+  height: 100%;
+  min-height: 100%;
+
+  background: #02040a;
+
+  overflow: hidden;
+
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
+
+html {
+  background: #02040a;
+}
+
+body {
+  margin: 0;
+
+  font-family:
+    Inter,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+
+  background: #02040a;
+
+  color: #e2e8f0;
+
+  overflow: hidden;
+
+  overscroll-behavior: none;
+}
+
+/* =====================================================
+   ROOT
+   ===================================================== */
+
+#__next {
+  position: relative;
+
+  width: 100%;
+  height: 100%;
+
+  overflow: hidden;
+}
+
+/* =====================================================
+   BOX SIZING
+   ===================================================== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* =====================================================
+   CANVAS
+   ===================================================== */
 
 canvas {
   display: block;
+
   width: 100% !important;
   height: 100% !important;
+
+  touch-action: none;
 }
 
-/* Neon Glow Utilities */
+/* =====================================================
+   BUTTONS / INPUTS
+   ===================================================== */
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+input {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* =====================================================
+   NEON GLOW UTILITIES
+   ===================================================== */
+
 .neon-border-cyan {
-  box-shadow: 0 0 15px rgba(6, 182, 212, 0.4), inset 0 0 15px rgba(6, 182, 212, 0.2);
   border: 1px solid rgba(6, 182, 212, 0.6);
+
+  box-shadow:
+    0 0 15px rgba(6, 182, 212, 0.4),
+    inset 0 0 15px rgba(6, 182, 212, 0.2);
 }
 
 .neon-border-rose {
-  box-shadow: 0 0 20px rgba(244, 63, 94, 0.5), inset 0 0 15px rgba(244, 63, 94, 0.2);
   border: 1px solid rgba(244, 63, 94, 0.7);
+
+  box-shadow:
+    0 0 20px rgba(244, 63, 94, 0.5),
+    inset 0 0 15px rgba(244, 63, 94, 0.2);
 }
 
 .neon-text-cyan {
-  text-shadow: 0 0 8px rgba(6, 182, 212, 0.6);
+  text-shadow:
+    0 0 8px rgba(6, 182, 212, 0.6);
 }
 
 .neon-text-rose {
-  text-shadow: 0 0 8px rgba(244, 63, 94, 0.6);
+  text-shadow:
+    0 0 8px rgba(244, 63, 94, 0.6);
 }
 
-/* CRT Screen FX Layer */
+/* =====================================================
+   CRT SCREEN FX
+   ===================================================== */
+
 .crt-overlay {
   position: absolute;
-  top: 0; left: 0; width: 100%; height: 100%;
-  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.3) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.05), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.05));
-  background-size: 100% 4px, 6px 100%;
+
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  background:
+    linear-gradient(
+      rgba(18, 16, 16, 0) 50%,
+      rgba(0, 0, 0, 0.3) 50%
+    ),
+    linear-gradient(
+      90deg,
+      rgba(255, 0, 0, 0.05),
+      rgba(0, 255, 0, 0.02),
+      rgba(0, 0, 255, 0.05)
+    );
+
+  background-size:
+    100% 4px,
+    6px 100%;
+
   z-index: 999;
+
   pointer-events: none;
 }
 
 .crt-overlay::after {
-  content: " ";
-  display: block;
+  content: "";
+
   position: absolute;
-  top: 0; left: 0; bottom: 0; right: 0;
-  background: radial-gradient(circle, transparent 55%, rgba(0, 0, 0, 0.5) 130%);
+
+  inset: 0;
+
+  background:
+    radial-gradient(
+      circle,
+      transparent 55%,
+      rgba(0, 0, 0, 0.5) 130%
+    );
+
   pointer-events: none;
 }
 
-/* Complex Animations */
+/* =====================================================
+   GRID ANIMATION
+   ===================================================== */
+
 @keyframes gridScroll {
-  from { background-position: 0 0; }
-  to { background-position: 0 40px; }
+  from {
+    background-position:
+      0 0;
+  }
+
+  to {
+    background-position:
+      0 40px;
+  }
 }
 
 .bg-scrolling-grid {
-  background-size: 40px 40px;
-  background-image: linear-gradient(to right, rgba(30, 41, 59, 0.5) 1px, transparent 1px), linear-gradient(to bottom, rgba(30, 41, 59, 0.5) 1px, transparent 1px);
-  animation: gridScroll 1s linear infinite;
+  background-size:
+    40px 40px;
+
+  background-image:
+    linear-gradient(
+      to right,
+      rgba(30, 41, 59, 0.5) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      to bottom,
+      rgba(30, 41, 59, 0.5) 1px,
+      transparent 1px
+    );
+
+  animation:
+    gridScroll 1s linear infinite;
 }
 
+/* =====================================================
+   PANEL ENTRY
+   ===================================================== */
+
 @keyframes panelEntry {
-  0% { opacity: 0; transform: scale(0.96) translateY(20px); filter: blur(4px); }
-  100% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0); }
+  0% {
+    opacity: 0;
+
+    transform:
+      scale(0.96)
+      translateY(20px);
+
+    filter:
+      blur(4px);
+  }
+
+  100% {
+    opacity: 1;
+
+    transform:
+      scale(1)
+      translateY(0);
+
+    filter:
+      blur(0);
+  }
 }
 
 .animate-panel-entry {
-  animation: panelEntry 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation:
+    panelEntry
+    0.4s
+    cubic-bezier(0.16, 1, 0.3, 1)
+    forwards;
 }
 
+/* =====================================================
+   GLITCH
+   ===================================================== */
+
 @keyframes glitchAnim {
-  0% { clip-path: inset(40% 0 61% 0); }
-  20% { clip-path: inset(92% 0 1% 0); }
-  40% { clip-path: inset(15% 0 80% 0); }
-  60% { clip-path: inset(80% 0 5% 0); }
-  80% { clip-path: inset(3% 0 92% 0); }
-  100% { clip-path: inset(40% 0 61% 0); }
+  0% {
+    clip-path:
+      inset(40% 0 61% 0);
+  }
+
+  20% {
+    clip-path:
+      inset(92% 0 1% 0);
+  }
+
+  40% {
+    clip-path:
+      inset(15% 0 80% 0);
+  }
+
+  60% {
+    clip-path:
+      inset(80% 0 5% 0);
+  }
+
+  80% {
+    clip-path:
+      inset(3% 0 92% 0);
+  }
+
+  100% {
+    clip-path:
+      inset(40% 0 61% 0);
+  }
 }
 
 .animate-glitch {
   position: relative;
 }
+
 .animate-glitch::before {
   content: attr(data-text);
+
   position: absolute;
+
   left: -2px;
-  text-shadow: 1px 0 #ff00c1;
   top: 0;
+
   width: 100%;
   height: 100%;
+
   background: #02040a;
+
   overflow: hidden;
-  clip-path: inset(0 0 0 0);
-  animation: glitchAnim 2s infinite linear alternate-reverse;
+
+  color: #fff;
+
+  text-shadow:
+    1px 0 #ff00c1;
+
+  clip-path:
+    inset(0 0 0 0);
+
+  animation:
+    glitchAnim
+    2s
+    infinite
+    linear
+    alternate-reverse;
+}
+
+/* =====================================================
+   REDUCED MOTION
+   ===================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+
+    scroll-behavior: auto !important;
+
+    transition-duration: 0.01ms !important;
+  }
 }

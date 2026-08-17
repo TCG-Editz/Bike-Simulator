@@ -1,1682 +1,2676 @@
 /* =====================================================
-NEON RIDER GLOBAL
-AAA GAME LAUNCHER STYLESHEET
-PART 1
-BACKGROUND + CORE LAYOUT
-===================================================== */
+   NEON RIDER GLOBAL
+   AAA GAME LAUNCHER
+   CROSS PLATFORM EDITION
+   ===================================================== */
 
 :root {
---cyan: #22d3ee;
---cyan-dark: #06b6d4;
---purple: #8b5cf6;
---bg: #020409;
---panel: rgba(8, 15, 25, 0.75);
---border: rgba(34, 211, 238, 0.2);
---text: #e2e8f0;
---muted: #64748b;
+  --cyan: #22d3ee;
+  --cyan-dark: #06b6d4;
+
+  --purple: #8b5cf6;
+  --blue: #3b82f6;
+
+  --bg: #020409;
+
+  --panel:
+    rgba(8, 15, 25, 0.75);
+
+  --border:
+    rgba(34, 211, 238, 0.2);
+
+  --text:
+    #e2e8f0;
+
+  --muted:
+    #64748b;
 }
 
-:global(*) {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+
+/* =====================================================
+   MAIN CONTAINER
+   ===================================================== */
 
 .portalContainer {
-position: relative;
-width: 100vw;
-height: 100vh;
-overflow: hidden;
+  position: relative;
 
-display: flex;
-justify-content: center;
-align-items: center;
+  width: 100%;
 
-background:
-radial-gradient(
-circle at 20% 20%,
-rgba(34,211,238,.12),
-transparent 40%
-),
-radial-gradient(
-circle at 80% 20%,
-rgba(139,92,246,.12),
-transparent 40%
-),
-#020409;
+  height: 100vh;
+  height: 100svh;
+  height: 100dvh;
 
-font-family:
-Inter,
-system-ui,
-sans-serif;
+  min-height: 100vh;
+  min-height: 100svh;
+  min-height: 100dvh;
 
-color: var(--text);
+  overflow: hidden;
+
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+
+  isolation: isolate;
+
+  background:
+    radial-gradient(
+      circle at 20% 20%,
+      rgba(34, 211, 238, 0.12),
+      transparent 40%
+    ),
+    radial-gradient(
+      circle at 80% 20%,
+      rgba(139, 92, 246, 0.12),
+      transparent 40%
+    ),
+    #020409;
+
+  font-family:
+    Inter,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+
+  color:
+    var(--text);
+
+  -webkit-tap-highlight-color:
+    transparent;
+
+  touch-action:
+    manipulation;
 }
 
+
 /* =====================================================
-CURSOR GLOW
-===================================================== */
+   CURSOR GLOW
+   ===================================================== */
 
 .cursorGlow {
-position: fixed;
+  position: fixed;
 
-width: 600px;
-height: 600px;
+  width: 600px;
+  height: 600px;
 
-border-radius: 50%;
+  border-radius: 50%;
 
-pointer-events: none;
+  pointer-events: none;
 
-transform:
-translate(-50%, -50%);
+  transform:
+    translate(-50%, -50%);
 
-background:
-radial-gradient(
-circle,
-rgba(34,211,238,.18),
-rgba(34,211,238,.08),
-transparent 70%
-);
+  background:
+    radial-gradient(
+      circle,
+      rgba(34, 211, 238, 0.18),
+      rgba(34, 211, 238, 0.08),
+      transparent 70%
+    );
 
-filter: blur(40px);
+  filter:
+    blur(40px);
 
-z-index: 1;
+  z-index: 3;
 
-transition:
-left .08s linear,
-top .08s linear;
+  transition:
+    left 0.08s linear,
+    top 0.08s linear;
+
+  will-change:
+    left,
+    top;
 }
 
+
 /* =====================================================
-CYBER GRID
-===================================================== */
+   CYBER GRID
+   ===================================================== */
 
 .grid {
-position: absolute;
+  position: absolute;
 
-bottom: -20%;
-left: -50%;
+  bottom: -20%;
+  left: -50%;
 
-width: 200%;
-height: 120%;
+  width: 200%;
+  height: 120%;
 
-background-image:
-linear-gradient(
-rgba(34,211,238,.12) 2px,
-transparent 2px
-),
-linear-gradient(
-90deg,
-rgba(34,211,238,.12) 2px,
-transparent 2px
-);
+  background-image:
+    linear-gradient(
+      rgba(34, 211, 238, 0.12) 2px,
+      transparent 2px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(34, 211, 238, 0.12) 2px,
+      transparent 2px
+    );
 
-background-size:
-120px 120px;
+  background-size:
+    120px 120px;
 
-transform:
-perspective(900px)
-rotateX(82deg);
+  transform:
+    perspective(900px)
+    rotateX(82deg);
 
-animation:
-gridFlow 12s linear infinite;
+  animation:
+    gridFlow 12s linear infinite;
 
-z-index: 0;
+  z-index: 0;
+
+  filter:
+    brightness(1.1);
+
+  will-change:
+    background-position;
 }
 
 @keyframes gridFlow {
-from {
-background-position:
-0 0,
-0 0;
+  from {
+    background-position:
+      0 0,
+      0 0;
+  }
+
+  to {
+    background-position:
+      0 120px,
+      120px 0;
+  }
 }
 
-to {
-background-position:
-0 120px,
-120px 0;
-}
-}
 
 /* =====================================================
-AURORA
-===================================================== */
+   AURORA
+   ===================================================== */
 
 .aurora {
-position: absolute;
-inset: 0;
+  position: absolute;
 
-background:
-radial-gradient(
-circle at 20% 20%,
-rgba(34,211,238,.25),
-transparent 40%
-),
-radial-gradient(
-circle at 70% 30%,
-rgba(139,92,246,.25),
-transparent 45%
-),
-radial-gradient(
-circle at 50% 80%,
-rgba(59,130,246,.20),
-transparent 50%
-);
+  inset: 0;
 
-filter: blur(120px);
+  background:
+    radial-gradient(
+      circle at 20% 20%,
+      rgba(34, 211, 238, 0.25),
+      transparent 40%
+    ),
+    radial-gradient(
+      circle at 70% 30%,
+      rgba(139, 92, 246, 0.25),
+      transparent 45%
+    ),
+    radial-gradient(
+      circle at 50% 80%,
+      rgba(59, 130, 246, 0.20),
+      transparent 50%
+    );
 
-animation:
-auroraMove 18s ease infinite;
+  filter:
+    blur(120px);
 
-z-index: 0;
+  animation:
+    auroraMove 18s ease infinite;
+
+  mix-blend-mode:
+    screen;
+
+  z-index: 0;
+
+  will-change:
+    transform;
 }
 
 @keyframes auroraMove {
+  0% {
+    transform:
+      scale(1)
+      translate(0, 0);
+  }
 
-0% {
-transform:
-scale(1)
-translate(0,0);
+  50% {
+    transform:
+      scale(1.2)
+      translate(-3%, 2%);
+  }
+
+  100% {
+    transform:
+      scale(1)
+      translate(0, 0);
+  }
 }
 
-50% {
-transform:
-scale(1.2)
-translate(-3%,2%);
-}
-
-100% {
-transform:
-scale(1)
-translate(0,0);
-}
-}
 
 /* =====================================================
-RADAR
-===================================================== */
+   RADAR
+   ===================================================== */
 
 .radar {
-position: absolute;
+  position: absolute;
 
-width: 180vmax;
-height: 180vmax;
+  width: 180vmax;
+  height: 180vmax;
 
-top: 50%;
-left: 50%;
+  top: 50%;
+  left: 50%;
 
-transform:
-translate(-50%, -50%);
+  transform:
+    translate(-50%, -50%);
 
-border-radius: 50%;
+  border-radius: 50%;
 
-background:
-conic-gradient(
-transparent,
-rgba(34,211,238,.12),
-transparent
-);
+  background:
+    conic-gradient(
+      transparent,
+      rgba(34, 211, 238, 0.12),
+      transparent
+    );
 
-animation:
-radarRotate 16s linear infinite;
+  animation:
+    radarRotate 16s linear infinite;
 
-z-index: 0;
+  z-index: 0;
+
+  pointer-events: none;
 }
 
 @keyframes radarRotate {
-to {
-transform:
-translate(-50%, -50%)
-rotate(360deg);
-}
+  to {
+    transform:
+      translate(-50%, -50%)
+      rotate(360deg);
+  }
 }
 
+
 /* =====================================================
-ORBS
-===================================================== */
+   ORBS
+   ===================================================== */
 
 .orb1,
 .orb2,
 .orb3 {
-position: absolute;
-border-radius: 50%;
-filter: blur(80px);
-z-index: 0;
+  position: absolute;
+
+  border-radius: 50%;
+
+  filter:
+    blur(80px);
+
+  z-index: 0;
+
+  pointer-events: none;
 }
 
 .orb1 {
-width: 500px;
-height: 500px;
+  width: 500px;
+  height: 500px;
 
-background:
-rgba(34,211,238,.15);
+  background:
+    rgba(34, 211, 238, 0.15);
 
-top: 5%;
-left: 5%;
+  top: 5%;
+  left: 5%;
 
-animation:
-orbFloat1 15s ease infinite;
+  animation:
+    orbFloat1 15s ease infinite;
 }
 
 .orb2 {
-width: 400px;
-height: 400px;
+  width: 400px;
+  height: 400px;
 
-background:
-rgba(139,92,246,.15);
+  background:
+    rgba(139, 92, 246, 0.15);
 
-right: 10%;
-top: 20%;
+  right: 10%;
+  top: 20%;
 
-animation:
-orbFloat2 18s ease infinite;
+  animation:
+    orbFloat2 18s ease infinite;
 }
 
 .orb3 {
-width: 450px;
-height: 450px;
+  width: 450px;
+  height: 450px;
 
-background:
-rgba(59,130,246,.12);
+  background:
+    rgba(59, 130, 246, 0.12);
 
-bottom: 0;
-left: 30%;
+  bottom: 0;
+  left: 30%;
 
-animation:
-orbFloat3 22s ease infinite;
+  animation:
+    orbFloat3 22s ease infinite;
 }
 
 @keyframes orbFloat1 {
-50% {
-transform:
-translateY(-80px)
-translateX(40px);
-}
+  50% {
+    transform:
+      translateY(-80px)
+      translateX(40px);
+  }
 }
 
 @keyframes orbFloat2 {
-50% {
-transform:
-translateY(60px)
-translateX(-80px);
-}
+  50% {
+    transform:
+      translateY(60px)
+      translateX(-80px);
+  }
 }
 
 @keyframes orbFloat3 {
-50% {
-transform:
-translateY(-60px)
-translateX(80px);
-}
+  50% {
+    transform:
+      translateY(-60px)
+      translateX(80px);
+  }
 }
 
+
 /* =====================================================
-SCANLINES
-===================================================== */
+   SCANLINES
+   ===================================================== */
 
 .scanline {
-position: absolute;
-inset: 0;
+  position: absolute;
 
-background:
-repeating-linear-gradient(
-to bottom,
-transparent,
-transparent 3px,
-rgba(255,255,255,.02) 4px
-);
+  inset: 0;
 
-pointer-events: none;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      transparent,
+      transparent 3px,
+      rgba(255, 255, 255, 0.02) 4px
+    );
 
-z-index: 20;
+  pointer-events: none;
+
+  z-index: 20;
 }
 
+
 /* =====================================================
-NOISE
-===================================================== */
+   NOISE
+   ===================================================== */
 
 .noise {
-position: absolute;
-inset: 0;
+  position: absolute;
 
-opacity: .035;
+  inset: 0;
 
-background-image:
-radial-gradient(
-rgba(255,255,255,.7) 1px,
-transparent 1px
-);
+  opacity: 0.035;
 
-background-size:
-4px 4px;
+  background-image:
+    radial-gradient(
+      rgba(255, 255, 255, 0.7) 1px,
+      transparent 1px
+    );
 
-animation:
-noiseMove .3s infinite;
+  background-size:
+    4px 4px;
 
-z-index: 21;
+  animation:
+    noiseMove 0.3s infinite;
+
+  z-index: 21;
+
+  pointer-events: none;
 }
 
 @keyframes noiseMove {
-50% {
-transform:
-translate(2px, -2px);
+  50% {
+    transform:
+      translate(2px, -2px);
+  }
 }
-}
+
 
 /* =====================================================
-MAIN LAUNCHER PANEL
-===================================================== */
+   STARFIELD
+   ===================================================== */
+
+.starField {
+  position: absolute;
+
+  inset: 0;
+
+  overflow: hidden;
+
+  z-index: 0;
+
+  pointer-events: none;
+}
+
+.starField::before,
+.starField::after {
+  content: "";
+
+  position: absolute;
+
+  inset: 0;
+
+  background-image:
+    radial-gradient(
+      white 1px,
+      transparent 1px
+    );
+
+  background-size:
+    120px 120px;
+
+  opacity: 0.4;
+}
+
+.starField::before {
+  animation:
+    starsMove1 90s linear infinite;
+}
+
+.starField::after {
+  animation:
+    starsMove2 140s linear infinite;
+
+  opacity: 0.2;
+}
+
+@keyframes starsMove1 {
+  from {
+    transform:
+      translateY(0);
+  }
+
+  to {
+    transform:
+      translateY(1000px);
+  }
+}
+
+@keyframes starsMove2 {
+  from {
+    transform:
+      translateY(0);
+  }
+
+  to {
+    transform:
+      translateY(-1000px);
+  }
+}
+
+
+/* =====================================================
+   ENERGY RINGS
+   ===================================================== */
+
+.energyRing,
+.energyRing2 {
+  position: absolute;
+
+  top: 50%;
+  left: 50%;
+
+  border-radius: 50%;
+
+  transform:
+    translate(-50%, -50%);
+
+  border:
+    1px solid rgba(34, 211, 238, 0.08);
+
+  pointer-events: none;
+
+  z-index: 1;
+}
+
+.energyRing {
+  width: 900px;
+  height: 900px;
+
+  animation:
+    rotateRing 60s linear infinite;
+}
+
+.energyRing2 {
+  width: 1200px;
+  height: 1200px;
+
+  animation:
+    rotateRingReverse 90s linear infinite;
+}
+
+@keyframes rotateRing {
+  from {
+    transform:
+      translate(-50%, -50%)
+      rotate(0deg);
+  }
+
+  to {
+    transform:
+      translate(-50%, -50%)
+      rotate(360deg);
+  }
+}
+
+@keyframes rotateRingReverse {
+  from {
+    transform:
+      translate(-50%, -50%)
+      rotate(360deg);
+  }
+
+  to {
+    transform:
+      translate(-50%, -50%)
+      rotate(0deg);
+  }
+}
+
+
+/* =====================================================
+   HEX GRID
+   ===================================================== */
+
+.hexGrid {
+  position: absolute;
+
+  inset: 0;
+
+  opacity: 0.08;
+
+  background-image:
+    linear-gradient(
+      30deg,
+      rgba(34, 211, 238, 0.4) 12%,
+      transparent 12.5%,
+      transparent 87%,
+      rgba(34, 211, 238, 0.4) 87.5%
+    ),
+    linear-gradient(
+      150deg,
+      rgba(34, 211, 238, 0.4) 12%,
+      transparent 12.5%,
+      transparent 87%,
+      rgba(34, 211, 238, 0.4) 87.5%
+    );
+
+  background-size:
+    120px 70px;
+
+  animation:
+    hexShift 30s linear infinite;
+
+  z-index: 0;
+
+  pointer-events: none;
+}
+
+@keyframes hexShift {
+  from {
+    background-position:
+      0 0,
+      0 0;
+  }
+
+  to {
+    background-position:
+      120px 70px,
+      -120px 70px;
+  }
+}
+
+
+/* =====================================================
+   TECH HUD LINES
+   ===================================================== */
+
+.techLine1,
+.techLine2 {
+  position: absolute;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(34, 211, 238, 0.3),
+      transparent
+    );
+
+  z-index: 2;
+
+  pointer-events: none;
+}
+
+.techLine1 {
+  width: 100%;
+  height: 1px;
+
+  top: 20%;
+
+  animation:
+    techSweep 8s infinite;
+}
+
+.techLine2 {
+  width: 1px;
+  height: 100%;
+
+  left: 15%;
+
+  background:
+    linear-gradient(
+      transparent,
+      rgba(34, 211, 238, 0.3),
+      transparent
+    );
+
+  animation:
+    techSweepVertical 10s infinite;
+}
+
+@keyframes techSweep {
+  0% {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes techSweepVertical {
+  0% {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+
+/* =====================================================
+   DIGITAL RAIN
+   ===================================================== */
+
+.digitalRain {
+  position: absolute;
+
+  inset: 0;
+
+  opacity: 0.05;
+
+  background-image:
+    repeating-linear-gradient(
+      to bottom,
+      rgba(34, 211, 238, 0.6) 0px,
+      transparent 2px,
+      transparent 6px
+    );
+
+  background-size:
+    100% 6px;
+
+  animation:
+    rainMove 1.2s linear infinite;
+
+  z-index: 1;
+
+  pointer-events: none;
+}
+
+@keyframes rainMove {
+  from {
+    background-position:
+      0 0;
+  }
+
+  to {
+    background-position:
+      0 100px;
+  }
+}
+
+
+/* =====================================================
+   CIRCUIT OVERLAY
+   ===================================================== */
+
+.circuitOverlay {
+  position: absolute;
+
+  inset: 0;
+
+  opacity: 0.08;
+
+  background-image:
+    radial-gradient(
+      circle at 20% 30%,
+      rgba(34, 211, 238, 0.6) 2px,
+      transparent 3px
+    ),
+    radial-gradient(
+      circle at 70% 60%,
+      rgba(139, 92, 246, 0.6) 2px,
+      transparent 3px
+    ),
+    radial-gradient(
+      circle at 40% 80%,
+      rgba(59, 130, 246, 0.6) 2px,
+      transparent 3px
+    );
+
+  background-size:
+    200px 200px;
+
+  animation:
+    circuitShift 20s linear infinite;
+
+  z-index: 1;
+
+  pointer-events: none;
+}
+
+@keyframes circuitShift {
+  from {
+    transform:
+      translate(0, 0);
+  }
+
+  to {
+    transform:
+      translate(100px, 60px);
+  }
+}
+
+
+/* =====================================================
+   PARTICLES
+   ===================================================== */
+
+.particleLayer {
+  position: absolute;
+
+  inset: 0;
+
+  overflow: hidden;
+
+  z-index: 1;
+
+  pointer-events: none;
+}
+
+.particle {
+  position: absolute;
+
+  left:
+    var(--left);
+
+  bottom: -20px;
+
+  width: 4px;
+  height: 4px;
+
+  border-radius: 50%;
+
+  background:
+    var(--cyan);
+
+  box-shadow:
+    0 0 8px var(--cyan);
+
+  animation:
+    floatParticle 12s linear infinite;
+
+  animation-delay:
+    var(--delay);
+}
+
+@keyframes floatParticle {
+  from {
+    transform:
+      translateY(0)
+      scale(1);
+
+    opacity: 0;
+  }
+
+  10% {
+    opacity: 1;
+  }
+
+  90% {
+    opacity: 1;
+  }
+
+  to {
+    transform:
+      translateY(-120vh)
+      scale(0);
+
+    opacity: 0;
+  }
+}
+
+
+/* =====================================================
+   MAIN PANEL
+   ===================================================== */
 
 .layoutWrapper {
-position: relative;
+  position: relative;
 
-z-index: 50;
+  z-index: 50;
 
-width: 92%;
-max-width: 720px;
+  width: 92%;
 
-padding: 50px;
+  max-width: 720px;
 
-border-radius: 28px;
+  max-height:
+    calc(
+      100dvh -
+      40px -
+      env(safe-area-inset-top, 0px) -
+      env(safe-area-inset-bottom, 0px)
+    );
 
-background:
-linear-gradient(
-135deg,
-rgba(255,255,255,.08),
-rgba(255,255,255,.02)
-);
+  padding: 50px;
 
-backdrop-filter:
-blur(24px);
+  overflow-y: auto;
 
-border:
-1px solid rgba(34,211,238,.18);
+  border-radius: 28px;
 
-box-shadow:
-0 0 50px rgba(34,211,238,.12),
-inset 0 0 30px rgba(255,255,255,.03);
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.08),
+      rgba(255, 255, 255, 0.02)
+    );
 
-animation:
-panelEntrance .9s ease,
-panelFloat 8s ease-in-out infinite;
+  backdrop-filter:
+    blur(24px);
+
+  -webkit-backdrop-filter:
+    blur(24px);
+
+  border:
+    1px solid rgba(34, 211, 238, 0.18);
+
+  box-shadow:
+    0 0 50px rgba(34, 211, 238, 0.12),
+    inset 0 0 30px rgba(255, 255, 255, 0.03);
+
+  animation:
+    panelEntrance 0.9s ease,
+    panelFloat 8s ease-in-out infinite;
+
+  transform-style:
+    preserve-3d;
+
+  overscroll-behavior:
+    contain;
+
+  scrollbar-width:
+    thin;
+
+  scrollbar-color:
+    rgba(34, 211, 238, 0.4)
+    transparent;
+}
+
+.layoutWrapper::-webkit-scrollbar {
+  width: 4px;
+}
+
+.layoutWrapper::-webkit-scrollbar-track {
+  background:
+    transparent;
+}
+
+.layoutWrapper::-webkit-scrollbar-thumb {
+  background:
+    rgba(34, 211, 238, 0.4);
+
+  border-radius:
+    20px;
 }
 
 @keyframes panelEntrance {
+  from {
+    opacity: 0;
 
-from {
-opacity: 0;
-transform:
-translateY(40px);
-}
+    transform:
+      translateY(40px);
+  }
 
-to {
-opacity: 1;
-transform:
-translateY(0);
-}
+  to {
+    opacity: 1;
+
+    transform:
+      translateY(0);
+  }
 }
 
 @keyframes panelFloat {
+  50% {
+    transform:
+      translateY(-8px);
+  }
+}
 
-50% {
-transform:
-translateY(-8px);
-}
-}
+
 /* =====================================================
-HUD CORNERS
-===================================================== */
+   PANEL BORDER GLOW
+   ===================================================== */
+
+.layoutWrapper::before {
+  content: "";
+
+  position: absolute;
+
+  inset: -2px;
+
+  border-radius:
+    inherit;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(34, 211, 238, 0.25),
+      transparent
+    );
+
+  opacity: 0.4;
+
+  z-index: -1;
+
+  animation:
+    borderGlowMove 6s linear infinite;
+}
+
+@keyframes borderGlowMove {
+  from {
+    background-position:
+      0%;
+  }
+
+  to {
+    background-position:
+      300%;
+  }
+}
+
+
+/* =====================================================
+   SIDE DECORATION
+   ===================================================== */
+
+.layoutWrapper::after {
+  content: "";
+
+  position: absolute;
+
+  top: 50%;
+  right: -40px;
+
+  width: 2px;
+  height: 120px;
+
+  background:
+    linear-gradient(
+      transparent,
+      var(--cyan),
+      transparent
+    );
+
+  transform:
+    translateY(-50%);
+}
+
+
+/* =====================================================
+   HUD CORNERS
+   ===================================================== */
 
 .cornerTL,
 .cornerTR,
 .cornerBL,
 .cornerBR {
-position: absolute;
-width: 36px;
-height: 36px;
-z-index: 5;
+  position: absolute;
+
+  width: 36px;
+  height: 36px;
+
+  z-index: 5;
+
+  pointer-events: none;
 }
 
 .cornerTL {
-top: 12px;
-left: 12px;
-border-top: 2px solid var(--cyan);
-border-left: 2px solid var(--cyan);
+  top: 12px;
+  left: 12px;
+
+  border-top:
+    2px solid var(--cyan);
+
+  border-left:
+    2px solid var(--cyan);
 }
 
 .cornerTR {
-top: 12px;
-right: 12px;
-border-top: 2px solid var(--cyan);
-border-right: 2px solid var(--cyan);
+  top: 12px;
+  right: 12px;
+
+  border-top:
+    2px solid var(--cyan);
+
+  border-right:
+    2px solid var(--cyan);
 }
 
 .cornerBL {
-bottom: 12px;
-left: 12px;
-border-bottom: 2px solid var(--cyan);
-border-left: 2px solid var(--cyan);
+  bottom: 12px;
+  left: 12px;
+
+  border-bottom:
+    2px solid var(--cyan);
+
+  border-left:
+    2px solid var(--cyan);
 }
 
 .cornerBR {
-bottom: 12px;
-right: 12px;
-border-bottom: 2px solid var(--cyan);
-border-right: 2px solid var(--cyan);
+  bottom: 12px;
+  right: 12px;
+
+  border-bottom:
+    2px solid var(--cyan);
+
+  border-right:
+    2px solid var(--cyan);
 }
 
+
 /* =====================================================
-HEADER
-===================================================== */
+   HEADER
+   ===================================================== */
 
 .header {
-text-align: center;
-margin-bottom: 32px;
+  text-align: center;
+
+  margin-bottom: 32px;
 }
 
 .systemTag {
-color: var(--muted);
-font-size: 11px;
-letter-spacing: 5px;
-margin-bottom: 12px;
-text-transform: uppercase;
+  color:
+    var(--muted);
+
+  font-size:
+    11px;
+
+  letter-spacing:
+    5px;
+
+  margin-bottom:
+    12px;
+
+  text-transform:
+    uppercase;
 }
 
 .divider {
-height: 2px;
-width: 100%;
-margin-top: 20px;
+  height: 2px;
 
-background:
-linear-gradient(
-90deg,
-transparent,
-var(--cyan),
-transparent
-);
+  width: 100%;
 
-animation:
-dividerPulse 4s ease infinite;
+  margin-top:
+    20px;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      var(--cyan),
+      transparent
+    );
+
+  animation:
+    dividerPulse 4s ease infinite;
 }
 
 @keyframes dividerPulse {
+  50% {
+    opacity: 0.5;
+  }
+}
 
-50% {
-opacity: .5;
-}
-}
 
 /* =====================================================
-TITLE
-===================================================== */
+   TITLE
+   ===================================================== */
 
 .title {
-position: relative;
+  position: relative;
 
-font-size:
-clamp(4rem, 8vw, 6.5rem);
+  margin: 0;
 
-font-weight: 900;
+  font-size:
+    clamp(
+      4rem,
+      8vw,
+      6.5rem
+    );
 
-line-height: 1;
+  font-weight:
+    900;
 
-letter-spacing: -4px;
+  line-height:
+    1;
 
-color: white;
+  letter-spacing:
+    -4px;
 
-text-transform: uppercase;
+  color:
+    white;
+
+  text-transform:
+    uppercase;
 }
 
 .neonText {
-color: var(--cyan);
+  color:
+    var(--cyan);
 
-text-shadow:
-0 0 8px var(--cyan),
-0 0 20px var(--cyan),
-0 0 40px var(--cyan),
-0 0 80px var(--cyan);
+  text-shadow:
+    0 0 8px var(--cyan),
+    0 0 20px var(--cyan),
+    0 0 40px var(--cyan),
+    0 0 80px var(--cyan);
 
-animation:
-neonPulse 4s ease infinite;
+  animation:
+    neonPulse 4s ease infinite;
 }
 
 @keyframes neonPulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
 
-0%,
-100% {
-opacity: 1;
+  50% {
+    opacity: 0.8;
+  }
 }
 
-50% {
-opacity: .8;
-}
-}
 
 /* =====================================================
-GLITCH LAYERS
-===================================================== */
+   GLITCH LAYERS
+   ===================================================== */
 
 .title::before,
 .title::after {
-content: attr(data-text);
+  content:
+    attr(data-text);
 
-position: absolute;
+  position: absolute;
 
-left: 0;
-top: 0;
+  left: 0;
+  top: 0;
 
-width: 100%;
+  width: 100%;
 
-overflow: hidden;
+  overflow: hidden;
+
+  pointer-events: none;
 }
 
 .title::before {
-color: #ff00aa;
+  color:
+    #ff00aa;
 
-transform:
-translateX(-2px);
+  transform:
+    translateX(-2px);
 
-opacity: .25;
+  opacity:
+    0.25;
 
-animation:
-glitchLeft 4s infinite;
+  animation:
+    glitchLeft 4s infinite;
 }
 
 .title::after {
-color: #00ffff;
+  color:
+    #00ffff;
 
-transform:
-translateX(2px);
+  transform:
+    translateX(2px);
 
-opacity: .25;
+  opacity:
+    0.25;
 
-animation:
-glitchRight 4s infinite;
+  animation:
+    glitchRight 4s infinite;
 }
 
 @keyframes glitchLeft {
+  0%,
+  92%,
+  100% {
+    clip-path:
+      inset(0 0 0 0);
+  }
 
-0%,
-92%,
-100% {
-clip-path:
-inset(0 0 0 0);
-}
+  94% {
+    clip-path:
+      inset(10% 0 70% 0);
+  }
 
-94% {
-clip-path:
-inset(10% 0 70% 0);
-}
-
-96% {
-clip-path:
-inset(50% 0 10% 0);
-}
+  96% {
+    clip-path:
+      inset(50% 0 10% 0);
+  }
 }
 
 @keyframes glitchRight {
+  0%,
+  92%,
+  100% {
+    clip-path:
+      inset(0 0 0 0);
+  }
 
-0%,
-92%,
-100% {
-clip-path:
-inset(0 0 0 0);
+  95% {
+    clip-path:
+      inset(20% 0 60% 0);
+  }
+
+  97% {
+    clip-path:
+      inset(70% 0 10% 0);
+  }
 }
 
-95% {
-clip-path:
-inset(20% 0 60% 0);
-}
-
-97% {
-clip-path:
-inset(70% 0 10% 0);
-}
-}
 
 /* =====================================================
-INPUT SECTION
-===================================================== */
+   INPUT
+   ===================================================== */
 
 .inputSection {
-width: 100%;
+  width: 100%;
 }
 
 .inputField {
-width: 100%;
+  display: block;
 
-padding: 18px;
+  width: 94.5%;
 
-background:
-rgba(0,0,0,.35);
+  min-height: 35px;
 
-border:
-1px solid rgba(34,211,238,.18);
+  padding:
+    18px;
 
-border-radius: 14px;
+  background:
+    rgba(0, 0, 0, 0.35);
 
-color: white;
+  border:
+    1px solid rgba(34, 211, 238, 0.18);
 
-text-align: center;
+  border-radius:
+    14px;
 
-letter-spacing: .3em;
+  color:
+    white;
 
-font-size: 14px;
+  text-align:
+    center;
 
-outline: none;
+  letter-spacing:
+    0.3em;
 
-transition:
-.3s ease;
+  font-size:
+    14px;
+
+  outline:
+    none;
+
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease,
+    transform 0.2s ease;
+
+  -webkit-appearance:
+    none;
+
+  appearance:
+    none;
+
+  touch-action:
+    manipulation;
 }
 
 .inputField::placeholder {
-color: rgba(255,255,255,.4);
+  color:
+    rgba(255, 255, 255, 0.4);
 }
 
 .inputField:hover {
-border-color:
-rgba(34,211,238,.45);
+  border-color:
+    rgba(34, 211, 238, 0.45);
 }
 
 .inputField:focus {
-border-color:
-var(--cyan);
+  border-color:
+    var(--cyan);
 
-box-shadow:
-0 0 0 2px rgba(34,211,238,.15),
-0 0 20px rgba(34,211,238,.25),
-inset 0 0 20px rgba(34,211,238,.08);
+  box-shadow:
+    0 0 0 2px rgba(34, 211, 238, 0.15),
+    0 0 20px rgba(34, 211, 238, 0.25),
+    inset 0 0 20px rgba(34, 211, 238, 0.08);
+
+  transform:
+    scale(1.01);
 }
 
+.inputField:disabled {
+  opacity:
+    0.65;
+
+  cursor:
+    not-allowed;
+}
+
+
 /* =====================================================
-BUTTON
-===================================================== */
+   BUTTON
+   ===================================================== */
 
 .button {
-position: relative;
+  position: relative;
 
-overflow: hidden;
+  overflow: hidden;
 
-width: 100%;
+  width: 100%;
 
-margin-top: 16px;
+  min-height: 54px;
 
-padding: 18px;
+  margin-top:
+    16px;
 
-border: none;
+  padding:
+    18px;
 
-border-radius: 14px;
+  border:
+    none;
 
-background:
-linear-gradient(
-135deg,
-var(--cyan),
-var(--cyan-dark)
-);
+  border-radius:
+    14px;
 
-color: #021018;
+  background:
+    linear-gradient(
+      135deg,
+      var(--cyan),
+      var(--cyan-dark)
+    );
 
-font-weight: 900;
+  color:
+    #021018;
 
-letter-spacing: 3px;
+  font-weight:
+    900;
 
-cursor: pointer;
+  letter-spacing:
+    3px;
 
-transition:
-.3s ease;
+  cursor:
+    pointer;
+
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    opacity 0.3s ease;
+
+  box-shadow:
+    0 0 0 rgba(34, 211, 238, 0);
+
+  touch-action:
+    manipulation;
+
+  -webkit-tap-highlight-color:
+    transparent;
 }
 
 .button::before {
-content: "";
+  content: "";
 
-position: absolute;
+  position: absolute;
 
-width: 80px;
-height: 200%;
+  width: 80px;
+  height: 200%;
 
-top: -50%;
-left: -120px;
+  top: -50%;
+  left: -120px;
 
-background:
-rgba(255,255,255,.4);
+  background:
+    rgba(255, 255, 255, 0.4);
 
-transform:
-rotate(25deg);
+  transform:
+    rotate(25deg);
 
-transition:
-.8s;
+  transition:
+    0.8s;
 }
 
 .button:hover::before {
-left: 120%;
+  left:
+    120%;
 }
 
 .button:hover {
-transform:
-translateY(-2px);
+  transform:
+    translateY(-2px);
 
-box-shadow:
-0 10px 35px rgba(34,211,238,.4);
+  box-shadow:
+    0 0 25px rgba(34, 211, 238, 0.35),
+    0 0 60px rgba(34, 211, 238, 0.15);
 }
 
 .button:active {
-transform:
-translateY(0);
+  transform:
+    translateY(0)
+    scale(0.995);
 }
 
 .button:disabled {
-opacity: .7;
-cursor: not-allowed;
+  opacity:
+    0.7;
+
+  cursor:
+    not-allowed;
 }
 
+
 /* =====================================================
-LEADERBOARD CARD
-===================================================== */
+   LEADERBOARD
+   ===================================================== */
 
 .leaderboardCard {
-margin-top: 28px;
+  margin-top:
+    28px;
 
-padding: 22px;
+  padding:
+    22px;
 
-border-radius: 18px;
+  border-radius:
+    18px;
 
-background:
-rgba(0,0,0,.25);
+  background:
+    rgba(0, 0, 0, 0.25);
 
-border:
-1px solid rgba(34,211,238,.12);
+  border:
+    1px solid rgba(34, 211, 238, 0.12);
 
-backdrop-filter:
-blur(10px);
+  backdrop-filter:
+    blur(10px);
 
-position: relative;
+  -webkit-backdrop-filter:
+    blur(10px);
+
+  position:
+    relative;
 }
 
 .leaderboardCard::before {
-content: "";
+  content: "";
 
-position: absolute;
+  position: absolute;
 
-left: 0;
-top: 0;
+  left: 0;
+  top: 0;
 
-width: 100%;
-height: 1px;
+  width: 100%;
+  height: 1px;
 
-background:
-linear-gradient(
-90deg,
-transparent,
-var(--cyan),
-transparent
-);
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      var(--cyan),
+      transparent
+    );
 }
 
-.cardHeader {
-color: var(--cyan);
-
-font-size: 11px;
-
-letter-spacing: 4px;
-
-margin-bottom: 16px;
-
-text-transform: uppercase;
-}
 
 /* =====================================================
-FOOTER
-===================================================== */
+   FOOTER
+   ===================================================== */
 
 .footer {
-position: absolute;
+  position: absolute;
 
-bottom: 28px;
+  bottom:
+    calc(
+      28px +
+      env(safe-area-inset-bottom, 0px)
+    );
 
-display: flex;
-align-items: center;
-gap: 10px;
+  display:
+    flex;
 
-font-size: 10px;
+  align-items:
+    center;
 
-letter-spacing: 4px;
+  gap:
+    10px;
 
-color: var(--muted);
+  font-size:
+    10px;
 
-z-index: 100;
+  letter-spacing:
+    4px;
+
+  color:
+    var(--muted);
+
+  z-index:
+    100;
+
+  pointer-events:
+    none;
 }
 
 .statusDot {
-width: 8px;
-height: 8px;
+  width: 8px;
+  height: 8px;
 
-border-radius: 50%;
+  flex:
+    0 0 auto;
 
-background: var(--cyan);
+  border-radius:
+    50%;
 
-box-shadow:
-0 0 10px var(--cyan),
-0 0 20px var(--cyan);
+  background:
+    var(--cyan);
 
-animation:
-statusPulse 1.5s infinite;
+  box-shadow:
+    0 0 10px var(--cyan),
+    0 0 20px var(--cyan);
+
+  animation:
+    statusPulse 1.5s infinite;
 }
 
 @keyframes statusPulse {
+  50% {
+    opacity:
+      0.4;
+  }
+}
 
-50% {
-opacity: .4;
-}
-}
 
 /* =====================================================
-LAUNCH OVERLAY
-===================================================== */
+   LAUNCH OVERLAY
+   ===================================================== */
 
 .launchOverlay {
-position: fixed;
-inset: 0;
+  position: fixed;
 
-z-index: 9999;
+  inset: 0;
 
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
+  width: 100%;
+  height: 100%;
 
-background:
-rgba(2,4,9,.94);
+  z-index:
+    9999;
 
-backdrop-filter:
-blur(14px);
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+  justify-content:
+    center;
+
+  align-items:
+    center;
+
+  padding:
+    30px;
+
+  background:
+    rgba(2, 4, 9, 0.94);
+
+  backdrop-filter:
+    blur(14px);
+
+  -webkit-backdrop-filter:
+    blur(14px);
+
+  text-align:
+    center;
+
+  padding-top:
+    calc(
+      30px +
+      env(safe-area-inset-top, 0px)
+    );
+
+  padding-bottom:
+    calc(
+      30px +
+      env(safe-area-inset-bottom, 0px)
+    );
 }
 
 .loaderRing {
-width: 100px;
-height: 100px;
+  width: 100px;
+  height: 100px;
 
-border-radius: 50%;
+  flex:
+    0 0 auto;
 
-border:
-4px solid rgba(255,255,255,.08);
+  border-radius:
+    50%;
 
-border-top:
-4px solid var(--cyan);
+  border:
+    4px solid rgba(255, 255, 255, 0.08);
 
-animation:
-loaderSpin 1s linear infinite;
+  border-top:
+    4px solid var(--cyan);
+
+  animation:
+    loaderSpin 1s linear infinite;
 }
 
 .launchOverlay h2 {
-margin-top: 24px;
+  margin:
+    24px 0 0;
 
-letter-spacing: 5px;
+  max-width:
+    90vw;
 
-color: white;
+  font-size:
+    clamp(14px, 3vw, 20px);
+
+  letter-spacing:
+    5px;
+
+  color:
+    white;
 }
 
 .launchOverlay p {
-margin-top: 8px;
+  margin:
+    8px 0 0;
 
-color: var(--muted);
+  color:
+    var(--muted);
 
-letter-spacing: 2px;
+  font-size:
+    11px;
+
+  letter-spacing:
+    2px;
 }
 
 @keyframes loaderSpin {
+  to {
+    transform:
+      rotate(360deg);
+  }
+}
 
-to {
-transform:
-rotate(360deg);
-}
-}
 
 /* =====================================================
-RESPONSIVE
-===================================================== */
-
-@media (max-width: 768px) {
-
-.layoutWrapper {
-width: 95%;
-padding: 28px;
-}
-
-.title {
-font-size:
-clamp(3rem, 14vw, 5rem);
-}
-
-.inputField,
-.button {
-padding: 16px;
-}
-}
-
-@media (max-width: 480px) {
-
-.layoutWrapper {
-padding: 22px;
-}
-
-.systemTag {
-font-size: 9px;
-}
-
-.cardHeader {
-font-size: 10px;
-}
-
-.footer {
-letter-spacing: 2px;
-}
-}
-/* =====================================================
-STARFIELD
-===================================================== */
-
-.starField {
-position: absolute;
-inset: 0;
-overflow: hidden;
-z-index: 0;
-}
-
-.starField::before,
-.starField::after {
-content: "";
-position: absolute;
-inset: 0;
-
-background-image:
-radial-gradient(
-white 1px,
-transparent 1px
-);
-
-background-size:
-120px 120px;
-
-opacity: .4;
-}
-
-.starField::before {
-animation:
-starsMove1 90s linear infinite;
-}
-
-.starField::after {
-animation:
-starsMove2 140s linear infinite;
-opacity: .2;
-}
-
-@keyframes starsMove1 {
-from {
-transform:
-translateY(0);
-}
-
-to {
-transform:
-translateY(1000px);
-}
-}
-
-@keyframes starsMove2 {
-from {
-transform:
-translateY(0);
-}
-
-to {
-transform:
-translateY(-1000px);
-}
-}
-
-/* =====================================================
-ENERGY RINGS
-===================================================== */
-
-.energyRing,
-.energyRing2 {
-position: absolute;
-
-top: 50%;
-left: 50%;
-
-border-radius: 50%;
-
-transform:
-translate(-50%, -50%);
-
-border:
-1px solid rgba(34,211,238,.08);
-
-pointer-events: none;
-
-z-index: 1;
-}
-
-.energyRing {
-width: 900px;
-height: 900px;
-
-animation:
-rotateRing 60s linear infinite;
-}
-
-.energyRing2 {
-width: 1200px;
-height: 1200px;
-
-animation:
-rotateRingReverse 90s linear infinite;
-}
-
-@keyframes rotateRing {
-
-from {
-transform:
-translate(-50%, -50%)
-rotate(0deg);
-}
-
-to {
-transform:
-translate(-50%, -50%)
-rotate(360deg);
-}
-}
-
-@keyframes rotateRingReverse {
-
-from {
-transform:
-translate(-50%, -50%)
-rotate(360deg);
-}
-
-to {
-transform:
-translate(-50%, -50%)
-rotate(0deg);
-}
-}
-
-/* =====================================================
-HEX GRID
-===================================================== */
-
-.hexGrid {
-position: absolute;
-inset: 0;
-
-opacity: .08;
-
-background-image:
-linear-gradient(
-30deg,
-rgba(34,211,238,.4) 12%,
-transparent 12.5%,
-transparent 87%,
-rgba(34,211,238,.4) 87.5%
-),
-linear-gradient(
-150deg,
-rgba(34,211,238,.4) 12%,
-transparent 12.5%,
-transparent 87%,
-rgba(34,211,238,.4) 87.5%
-);
-
-background-size:
-120px 70px;
-
-animation:
-hexShift 30s linear infinite;
-
-z-index: 0;
-}
-
-@keyframes hexShift {
-
-from {
-background-position:
-0 0,
-0 0;
-}
-
-to {
-background-position:
-120px 70px,
--120px 70px;
-}
-}
-
-/* =====================================================
-TECH HUD LINES
-===================================================== */
-
-.techLine1,
-.techLine2 {
-position: absolute;
-
-background:
-linear-gradient(
-90deg,
-transparent,
-rgba(34,211,238,.3),
-transparent
-);
-
-z-index: 2;
-}
-
-.techLine1 {
-width: 100%;
-height: 1px;
-
-top: 20%;
-
-animation:
-techSweep 8s infinite;
-}
-
-.techLine2 {
-width: 1px;
-height: 100%;
-
-left: 15%;
-
-background:
-linear-gradient(
-transparent,
-rgba(34,211,238,.3),
-transparent
-);
-
-animation:
-techSweepVertical 10s infinite;
-}
-
-@keyframes techSweep {
-
-0% {
-opacity: 0;
-}
-
-50% {
-opacity: 1;
-}
-
-100% {
-opacity: 0;
-}
-}
-
-@keyframes techSweepVertical {
-
-0% {
-opacity: 0;
-}
-
-50% {
-opacity: 1;
-}
-
-100% {
-opacity: 0;
-}
-}
-
-/* =====================================================
-FLOATING PARTICLES
-===================================================== */
-
-.particleLayer {
-position: absolute;
-inset: 0;
-overflow: hidden;
-z-index: 1;
-}
-
-.particle {
-position: absolute;
-
-left: var(--left);
-
-bottom: -20px;
-
-width: 4px;
-height: 4px;
-
-border-radius: 50%;
-
-background: var(--cyan);
-
-box-shadow:
-0 0 8px var(--cyan);
-
-animation:
-floatParticle 12s linear infinite;
-
-animation-delay:
-var(--delay);
-}
-
-@keyframes floatParticle {
-
-from {
-transform:
-translateY(0)
-scale(1);
-
-
-opacity: 0;
-
-}
-
-10% {
-opacity: 1;
-}
-
-90% {
-opacity: 1;
-}
-
-to {
-transform:
-translateY(-120vh)
-scale(0);
-
-
-opacity: 0;
-
-}
-}
-
-/* =====================================================
-PANEL BORDER GLOW
-===================================================== */
-
-.layoutWrapper::before {
-content: "";
-
-position: absolute;
-inset: -2px;
-
-border-radius: inherit;
-
-background:
-linear-gradient(
-90deg,
-transparent,
-rgba(34,211,238,.25),
-transparent
-);
-
-opacity: .4;
-
-z-index: -1;
-
-animation:
-borderGlowMove 6s linear infinite;
-}
-
-@keyframes borderGlowMove {
-
-from {
-background-position:
-0%;
-}
-
-to {
-background-position:
-300%;
-}
-}
-
-/* =====================================================
-SIDE DECORATION
-===================================================== */
-
-.layoutWrapper::after {
-content: "";
-
-position: absolute;
-
-top: 50%;
-right: -40px;
-
-width: 2px;
-height: 120px;
-
-background:
-linear-gradient(
-transparent,
-var(--cyan),
-transparent
-);
-
-transform:
-translateY(-50%);
-}
-
-/* =====================================================
-ENERGY PULSE
-===================================================== */
+   ENERGY PULSE
+   ===================================================== */
 
 .portalContainer::before {
-content: "";
+  content: "";
 
-position: absolute;
+  position: absolute;
 
-width: 1500px;
-height: 1500px;
+  width: 1500px;
+  height: 1500px;
 
-top: 50%;
-left: 50%;
+  top: 50%;
+  left: 50%;
 
-border-radius: 50%;
+  border-radius:
+    50%;
 
-transform:
-translate(-50%, -50%);
+  transform:
+    translate(-50%, -50%);
 
-border:
-1px solid rgba(34,211,238,.04);
+  border:
+    1px solid rgba(34, 211, 238, 0.04);
 
-animation:
-pulseWave 8s ease infinite;
+  animation:
+    pulseWave 8s ease infinite;
 
-z-index: 0;
+  z-index:
+    0;
+
+  pointer-events:
+    none;
 }
 
 @keyframes pulseWave {
+  0% {
+    transform:
+      translate(-50%, -50%)
+      scale(0.8);
 
-0% {
-transform:
-translate(-50%, -50%)
-scale(.8);
+    opacity:
+      0.3;
+  }
 
-opacity: .3;
+  50% {
+    transform:
+      translate(-50%, -50%)
+      scale(1.2);
 
+    opacity:
+      0.08;
+  }
+
+  100% {
+    transform:
+      translate(-50%, -50%)
+      scale(0.8);
+
+    opacity:
+      0.3;
+  }
 }
 
-50% {
-transform:
-translate(-50%, -50%)
-scale(1.2);
-opacity: .08;
-
-}
-
-100% {
-transform:
-translate(-50%, -50%)
-scale(.8);
-opacity: .3;
-
-}
-}
-/* =====================================================
-DIGITAL RAIN (CYBER FALL EFFECT)
-===================================================== */
-
-.digitalRain {
-position: absolute;
-inset: 0;
-
-opacity: .05;
-
-background-image:
-repeating-linear-gradient(
-to bottom,
-rgba(34,211,238,.6) 0px,
-transparent 2px,
-transparent 6px
-);
-
-background-size:
-100% 6px;
-
-animation:
-rainMove 1.2s linear infinite;
-
-z-index: 1;
-}
-
-@keyframes rainMove {
-from {
-background-position:
-0 0;
-}
-
-to {
-background-position:
-0 100px;
-}
-}
 
 /* =====================================================
-CIRCUIT OVERLAY (TECH NETWORK LINES)
-===================================================== */
+   VIGNETTE
+   ===================================================== */
 
-.circuitOverlay {
-position: absolute;
-inset: 0;
+.portalContainer::after {
+  content: "";
 
-opacity: .08;
+  position: absolute;
 
-background-image:
-radial-gradient(circle at 20% 30%, rgba(34,211,238,.6) 2px, transparent 3px),
-radial-gradient(circle at 70% 60%, rgba(139,92,246,.6) 2px, transparent 3px),
-radial-gradient(circle at 40% 80%, rgba(59,130,246,.6) 2px, transparent 3px);
+  inset: 0;
 
-background-size:
-200px 200px;
+  background:
+    radial-gradient(
+      circle at center,
+      transparent 40%,
+      rgba(0, 0, 0, 0.6) 100%
+    );
 
-animation:
-circuitShift 20s linear infinite;
+  z-index:
+    2;
 
-z-index: 1;
+  pointer-events:
+    none;
 }
 
-@keyframes circuitShift {
-from {
-transform:
-translate(0,0);
-}
-
-to {
-transform:
-translate(100px, 60px);
-}
-}
 
 /* =====================================================
-HUD CORNER TELEMETRY
-===================================================== */
+   HUD TELEMETRY
+   ===================================================== */
 
 .hudTopLeft,
 .hudTopRight,
 .hudBottomLeft,
 .hudBottomRight {
-position: absolute;
+  position: absolute;
 
-font-size: 10px;
+  font-size:
+    10px;
 
-letter-spacing: 3px;
+  letter-spacing:
+    3px;
 
-color: rgba(34,211,238,.7);
+  color:
+    rgba(34, 211, 238, 0.7);
 
-z-index: 60;
+  z-index:
+    60;
 
-text-transform: uppercase;
+  text-transform:
+    uppercase;
 
-font-family: monospace;
+  font-family:
+    monospace;
+
+  pointer-events:
+    none;
 }
 
 .hudTopLeft {
-top: 12px;
-left: 16px;
+  top:
+    calc(
+      12px +
+      env(safe-area-inset-top, 0px)
+    );
+
+  left:
+    calc(
+      16px +
+      env(safe-area-inset-left, 0px)
+    );
 }
 
 .hudTopRight {
-top: 12px;
-right: 16px;
+  top:
+    calc(
+      12px +
+      env(safe-area-inset-top, 0px)
+    );
+
+  right:
+    calc(
+      16px +
+      env(safe-area-inset-right, 0px)
+    );
 }
 
 .hudBottomLeft {
-bottom: 12px;
-left: 16px;
+  bottom:
+    calc(
+      12px +
+      env(safe-area-inset-bottom, 0px)
+    );
+
+  left:
+    calc(
+      16px +
+      env(safe-area-inset-left, 0px)
+    );
 }
 
 .hudBottomRight {
-bottom: 12px;
-right: 16px;
+  bottom:
+    calc(
+      12px +
+      env(safe-area-inset-bottom, 0px)
+    );
+
+  right:
+    calc(
+      16px +
+      env(safe-area-inset-right, 0px)
+    );
 }
+
 
 /* =====================================================
-GLASS DEPTH ENHANCEMENT
-===================================================== */
+   MUSIC CONTROLS
+   ===================================================== */
 
-.layoutWrapper {
-transform-style: preserve-3d;
+.musicControls {
+  position: fixed;
+
+  top:
+    calc(
+      14px +
+      env(safe-area-inset-top, 0px)
+    );
+
+  right:
+    calc(
+      14px +
+      env(safe-area-inset-right, 0px)
+    );
+
+  z-index:
+    200;
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  gap:
+    6px;
+
+  padding:
+    6px;
+
+  border:
+    1px solid rgba(34, 211, 238, 0.12);
+
+  border-radius:
+    12px;
+
+  background:
+    rgba(2, 4, 9, 0.55);
+
+  backdrop-filter:
+    blur(12px);
+
+  -webkit-backdrop-filter:
+    blur(12px);
 }
 
-.layoutWrapper:hover {
-transform:
-translateY(-4px)
-scale(1.01);
+.musicButton,
+.trackButton {
+  min-height:
+    36px;
 
-box-shadow:
-0 0 80px rgba(34,211,238,.18),
-inset 0 0 40px rgba(255,255,255,.03);
+  border:
+    none;
+
+  background:
+    transparent;
+
+  color:
+    #00f2ff;
+
+  cursor:
+    pointer;
+
+  -webkit-tap-highlight-color:
+    transparent;
+
+  touch-action:
+    manipulation;
 }
+
+.musicButton {
+  width:
+    36px;
+
+  padding:
+    0;
+
+  font-size:
+    15px;
+}
+
+.trackButton {
+  padding:
+    8px 10px;
+
+  font-family:
+    monospace;
+
+  font-size:
+    10px;
+
+  letter-spacing:
+    1px;
+}
+
+.musicButton:hover,
+.trackButton:hover {
+  text-shadow:
+    0 0 10px #00f2ff;
+}
+
+.musicButton:active,
+.trackButton:active {
+  transform:
+    scale(0.96);
+}
+
 
 /* =====================================================
-INPUT MICRO INTERACTION
-===================================================== */
+   TRACK SELECTOR
+   ===================================================== */
 
-.inputField {
-transition:
-all .25s ease,
-transform .2s ease;
-}
-
-.inputField:focus {
-transform:
-scale(1.01);
-}
-
-/* =====================================================
-BUTTON ENHANCED ENERGY FEEL
-===================================================== */
-
-.button {
-box-shadow:
-0 0 0 rgba(34,211,238,0);
-}
-
-.button:hover {
-box-shadow:
-0 0 25px rgba(34,211,238,.35),
-0 0 60px rgba(34,211,238,.15);
-}
-
-/* =====================================================
-BACKGROUND PARALLAX DEPTH
-===================================================== */
-
-.portalContainer > div {
-will-change: transform;
-}
-
-/* subtle depth layering */
-.grid {
-filter: brightness(1.1);
-}
-
-.aurora {
-mix-blend-mode: screen;
-}
-
-/* =====================================================
-FINAL AMBIENT GLOW VIGNETTE
-===================================================== */
-
-.portalContainer::after {
-content: "";
-
-position: absolute;
-inset: 0;
-
-background:
-radial-gradient(
-circle at center,
-transparent 40%,
-rgba(0,0,0,.6) 100%
-);
-
-z-index: 2;
-pointer-events: none;
-}
-
-/* =====================================================
-PREMIUM TOUCH: HOVER SOUND-LIKE FEEL (VISUAL ONLY)
-===================================================== */
-
-.layoutWrapper:active {
-transform:
-scale(.995);
-}
-
-/* =====================================================
-MOBILE POLISH
-===================================================== */
-
-@media (max-width: 768px) {
-
-.hudTopLeft,
-.hudTopRight,
-.hudBottomLeft,
-.hudBottomRight {
-font-size: 8px;
-letter-spacing: 2px;
-}
-
-.cursorGlow {
-width: 300px;
-height: 300px;
-}
-}
 .trackSelectorPopup {
   position: fixed;
-  top: 60px;
-  right: 20px;
-  width: 200px;
-  background: rgba(10, 15, 20, 0.9);
-  border: 1px solid #00f2ff;
-  padding: 10px;
-  z-index: 200;
-  backdrop-filter: blur(5px);
+
+  top:
+    calc(
+      62px +
+      env(safe-area-inset-top, 0px)
+    );
+
+  right:
+    calc(
+      14px +
+      env(safe-area-inset-right, 0px)
+    );
+
+  width:
+    min(
+      300px,
+      calc(100vw - 28px)
+    );
+
+  max-height:
+    calc(
+      100dvh - 90px
+    );
+
+  overflow-y:
+    auto;
+
+  padding:
+    12px;
+
+  z-index:
+    200;
+
+  border:
+    1px solid #00f2ff;
+
+  border-radius:
+    12px;
+
+  background:
+    rgba(10, 15, 20, 0.92);
+
+  backdrop-filter:
+    blur(12px);
+
+  -webkit-backdrop-filter:
+    blur(12px);
+
+  box-shadow:
+    0 0 30px
+    rgba(0, 242, 255, 0.15);
+
+  overscroll-behavior:
+    contain;
+
+  -webkit-overflow-scrolling:
+    touch;
+}
+
+.trackSelectorTitle {
+  margin:
+    0 0 10px;
+
+  color:
+    #00f2ff;
+
+  font-family:
+    monospace;
+
+  font-size:
+    10px;
+
+  letter-spacing:
+    1px;
+}
+
+.trackList {
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+  gap:
+    5px;
 }
 
 .trackOption {
-  display: block;
-  width: 100%;
-  padding: 8px;
-  margin: 5px 0;
-  background: rgba(0, 242, 255, 0.1);
-  border: 1px solid #00f2ff;
-  color: #fff;
-  font-family: monospace;
-  cursor: pointer;
+  display:
+    block;
+
+  width:
+    100%;
+
+  min-height:
+    38px;
+
+  padding:
+    8px 10px;
+
+  border:
+    1px solid #00f2ff;
+
+  border-radius:
+    6px;
+
+  background:
+    rgba(0, 242, 255, 0.08);
+
+  color:
+    #fff;
+
+  font-family:
+    monospace;
+
+  font-size:
+    11px;
+
+  text-align:
+    left;
+
+  cursor:
+    pointer;
+
+  touch-action:
+    manipulation;
+
+  -webkit-tap-highlight-color:
+    transparent;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
 }
 
 .trackOption:hover {
-  background: #00f2ff;
-  color: #000;
+  background:
+    #00f2ff;
+
+  color:
+    #000;
+}
+
+.trackOption:active {
+  transform:
+    scale(0.98);
+}
+
+
+/* =====================================================
+   DESKTOP HOVER
+   ===================================================== */
+
+@media (hover: hover) and (pointer: fine) {
+  .layoutWrapper:hover {
+    transform:
+      translateY(-4px)
+      scale(1.01);
+
+    box-shadow:
+      0 0 80px rgba(34, 211, 238, 0.18),
+      inset 0 0 40px rgba(255, 255, 255, 0.03);
+  }
+}
+
+
+/* =====================================================
+   TABLET
+   ===================================================== */
+
+@media (max-width: 768px) {
+  .layoutWrapper {
+    width:
+      calc(100% - 24px);
+
+    max-width:
+      720px;
+
+    max-height:
+      calc(
+        100dvh - 24px
+      );
+
+    padding:
+      28px;
+
+    border-radius:
+      22px;
+  }
+
+  .title {
+    font-size:
+      clamp(
+        3rem,
+        14vw,
+        5rem
+      );
+
+    letter-spacing:
+      -3px;
+  }
+
+  .inputField,
+  .button {
+    min-height:
+      50px;
+
+    padding:
+      16px;
+  }
+
+  .hudTopLeft,
+  .hudTopRight,
+  .hudBottomLeft,
+  .hudBottomRight {
+    font-size:
+      8px;
+
+    letter-spacing:
+      2px;
+  }
+
+  .cursorGlow {
+    display:
+      none;
+  }
+
+  .energyRing {
+    width:
+      700px;
+
+    height:
+      700px;
+  }
+
+  .energyRing2 {
+    width:
+      900px;
+
+    height:
+      900px;
+  }
+}
+
+
+/* =====================================================
+   MOBILE
+   ===================================================== */
+
+@media (max-width: 600px) {
+  .layoutWrapper {
+    width:
+      calc(100% - 16px);
+
+    max-height:
+      calc(
+        100dvh - 16px
+      );
+
+    padding:
+      22px;
+
+    border-radius:
+      20px;
+  }
+
+  .header {
+    margin-bottom:
+      24px;
+  }
+
+  .systemTag {
+    font-size:
+      8px;
+
+    letter-spacing:
+      3px;
+  }
+
+  .title {
+    font-size:
+      clamp(
+        2.7rem,
+        15vw,
+        4.5rem
+      );
+
+    letter-spacing:
+      -2px;
+  }
+
+  .divider {
+    margin-top:
+      16px;
+  }
+
+  .inputField {
+    min-height:
+      50px;
+
+    padding:
+      15px 12px;
+
+    font-size:
+      13px;
+
+    letter-spacing:
+      0.2em;
+  }
+
+  .button {
+    min-height:
+      50px;
+
+    padding:
+      15px 10px;
+
+    font-size:
+      12px;
+
+    letter-spacing:
+      2px;
+  }
+
+  .leaderboardCard {
+    margin-top:
+      20px;
+
+    padding:
+      16px;
+  }
+
+  .footer {
+    bottom:
+      calc(
+        8px +
+        env(safe-area-inset-bottom, 0px)
+      );
+
+    font-size:
+      8px;
+
+    letter-spacing:
+      2px;
+  }
+
+  .cornerTL,
+  .cornerTR,
+  .cornerBL,
+  .cornerBR {
+    width:
+      24px;
+
+    height:
+      24px;
+  }
+
+  .cornerTL {
+    top:
+      8px;
+
+    left:
+      8px;
+  }
+
+  .cornerTR {
+    top:
+      8px;
+
+    right:
+      8px;
+  }
+
+  .cornerBL {
+    bottom:
+      8px;
+
+    left:
+      8px;
+  }
+
+  .cornerBR {
+    bottom:
+      8px;
+
+    right:
+      8px;
+  }
+
+  .hudTopLeft,
+  .hudTopRight {
+    top:
+      calc(
+        8px +
+        env(safe-area-inset-top, 0px)
+      );
+  }
+
+  .hudTopLeft {
+    left:
+      8px;
+  }
+
+  .hudTopRight {
+    right:
+      8px;
+
+    max-width:
+      120px;
+
+    overflow:
+      hidden;
+
+    text-overflow:
+      ellipsis;
+
+    white-space:
+      nowrap;
+  }
+
+  .hudBottomLeft,
+  .hudBottomRight {
+    bottom:
+      calc(
+        8px +
+        env(safe-area-inset-bottom, 0px)
+      );
+  }
+
+  .hudBottomLeft {
+    left:
+      8px;
+  }
+
+  .hudBottomRight {
+    right:
+      8px;
+  }
+
+  .musicControls {
+    top:
+      calc(
+        8px +
+        env(safe-area-inset-top, 0px)
+      );
+
+    right:
+      calc(
+        8px +
+        env(safe-area-inset-right, 0px)
+      );
+
+    padding:
+      4px;
+  }
+
+  .trackButton {
+    max-width:
+      135px;
+
+    overflow:
+      hidden;
+
+    text-overflow:
+      ellipsis;
+
+    white-space:
+      nowrap;
+  }
+
+  .trackSelectorPopup {
+    top:
+      calc(
+        54px +
+        env(safe-area-inset-top, 0px)
+      );
+
+    right:
+      calc(
+        8px +
+        env(safe-area-inset-right, 0px)
+      );
+
+    width:
+      min(
+        280px,
+        calc(100vw - 16px)
+      );
+  }
+
+  .launchOverlay h2 {
+    letter-spacing:
+      3px;
+  }
+
+  .launchOverlay p {
+    font-size:
+      9px;
+
+    letter-spacing:
+      1px;
+  }
+}
+
+
+/* =====================================================
+   VERY SMALL PHONES
+   ===================================================== */
+
+@media (max-width: 380px) {
+  .layoutWrapper {
+    width:
+      calc(100% - 10px);
+
+    max-height:
+      calc(
+        100dvh - 10px
+      );
+
+    padding:
+      18px;
+  }
+
+  .title {
+    font-size:
+      2.7rem;
+  }
+
+  .systemTag {
+    font-size:
+      7px;
+
+    letter-spacing:
+      2px;
+  }
+
+  .leaderboardCard {
+    padding:
+      12px;
+  }
+
+  .trackButton {
+    max-width:
+      105px;
+
+    font-size:
+      8px;
+  }
+}
+
+
+/* =====================================================
+   LANDSCAPE MOBILE
+   ===================================================== */
+
+@media (max-height: 600px) and (orientation: landscape) {
+  .layoutWrapper {
+    max-height:
+      calc(
+        100dvh - 12px
+      );
+
+    padding:
+      18px 28px;
+  }
+
+  .header {
+    margin-bottom:
+      16px;
+  }
+
+  .title {
+    font-size:
+      clamp(
+        2.5rem,
+        10vh,
+        4rem
+      );
+  }
+
+  .inputField,
+  .button {
+    min-height:
+      44px;
+
+    padding:
+      11px;
+  }
+
+  .leaderboardCard {
+    margin-top:
+      14px;
+
+    padding:
+      12px;
+  }
+}
+
+
+/* =====================================================
+   REDUCED MOTION
+   ===================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .grid,
+  .aurora,
+  .radar,
+  .noise,
+  .orb1,
+  .orb2,
+  .orb3,
+  .starField::before,
+  .starField::after,
+  .energyRing,
+  .energyRing2,
+  .hexGrid,
+  .techLine1,
+  .techLine2,
+  .particle,
+  .digitalRain,
+  .circuitOverlay,
+  .layoutWrapper,
+  .neonText,
+  .title::before,
+  .title::after,
+  .divider,
+  .statusDot,
+  .loaderRing,
+  .portalContainer::before,
+  .layoutWrapper::before {
+    animation:
+      none !important;
+  }
+
+  .cursorGlow {
+    display:
+      none;
+  }
 }
