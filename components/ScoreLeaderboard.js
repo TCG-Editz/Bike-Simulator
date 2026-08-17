@@ -140,7 +140,7 @@ export default function ScoreLeaderboard({
           padding: 16px;
           border-radius: 12px;
           font-family: monospace;
-          width: %;
+          width: 100%;
           box-shadow: 0 0 15px rgba(6, 182, 212, 0.15);
         }
 
