@@ -1,0 +1,155 @@
+.mobileControls {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 22px;
+
+  z-index: 1000;
+
+  display: none;
+
+  justify-content: center;
+  align-items: center;
+
+  gap: 14px;
+
+  padding: 0 16px;
+
+  pointer-events: none;
+
+  user-select: none;
+  -webkit-user-select: none;
+
+  touch-action: none;
+}
+
+.controlButton {
+  width: 82px;
+  height: 82px;
+
+  border: 2px solid #00f2ff;
+  border-radius: 16px;
+
+  background: rgba(0, 8, 15, 0.78);
+
+  color: #00f2ff;
+
+  font-family: monospace;
+  font-size: 28px;
+  font-weight: bold;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  pointer-events: auto;
+
+  touch-action: none;
+
+  -webkit-tap-highlight-color: transparent;
+
+  box-shadow:
+    0 0 12px rgba(0, 242, 255, 0.45),
+    inset 0 0 18px rgba(0, 242, 255, 0.08);
+
+  backdrop-filter: blur(5px);
+
+  transition:
+    transform 0.08s ease,
+    background 0.08s ease,
+    box-shadow 0.08s ease;
+}
+
+.controlButton strong {
+  line-height: 1;
+}
+
+.controlButton span {
+  margin-top: 5px;
+
+  font-size: 9px;
+  letter-spacing: 1.5px;
+}
+
+.controlButton:active {
+  transform: scale(0.9);
+
+  background: rgba(0, 242, 255, 0.25);
+
+  box-shadow:
+    0 0 25px rgba(0, 242, 255, 0.9),
+    inset 0 0 20px rgba(0, 242, 255, 0.2);
+}
+
+
+/* ACCELERATOR */
+
+.accelerateButton {
+  border-color: #39ff14;
+  color: #39ff14;
+
+  box-shadow:
+    0 0 12px rgba(57, 255, 20, 0.45),
+    inset 0 0 18px rgba(57, 255, 20, 0.08);
+}
+
+.accelerateButton:active {
+  background: rgba(57, 255, 20, 0.25);
+
+  box-shadow:
+    0 0 28px rgba(57, 255, 20, 0.9),
+    inset 0 0 20px rgba(57, 255, 20, 0.2);
+}
+
+
+/* ONLY SHOW ON MOBILE */
+
+@media (max-width: 768px) {
+  .mobileControls {
+    display: flex;
+  }
+}
+
+
+/* SMALL PHONES */
+
+@media (max-width: 380px) {
+  .mobileControls {
+    bottom: 14px;
+    gap: 8px;
+    padding: 0 10px;
+  }
+
+  .controlButton {
+    width: 68px;
+    height: 68px;
+  }
+
+  .controlButton span {
+    font-size: 8px;
+  }
+}
+
+
+/* LANDSCAPE MOBILE */
+
+@media (max-height: 500px) and (orientation: landscape) {
+  .mobileControls {
+    bottom: 10px;
+  }
+
+  .controlButton {
+    width: 60px;
+    height: 60px;
+  }
+}
+.maneuverer {
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .maneuverer {
+    display: none !important;
+  }
+}
