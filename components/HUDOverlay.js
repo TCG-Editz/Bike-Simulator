@@ -2,38 +2,159 @@ import React, { useState, useEffect } from 'react';
 
 export default function HUDOverlay({ speed, distance, time }) {
   const [currentUser, setCurrentUser] = useState('GUEST_USER');
+  const [isFullscreen, setIsFullscreen] = useState(false);
 
-  const velocityNormalizedRatio = Math.min(speed / 185, 1);
+  const velocityNormalizedRatio = Math.min(
+    Math.max(speed / 185, 0),
+    1
+  );
 
-  // Helper to format time into MM:SS
+  // =========================================
+  // FORMAT TIME
+  // =========================================
+
   const formatTime = (seconds) => {
     const mins = Math.floor(seconds / 60);
     const secs = Math.floor(seconds % 60);
 
-    return `${mins
-      .toString()
-      .padStart(2, '0')}:${secs
+    return `${mins.toString().padStart(2, '0')}:${secs
       .toString()
       .padStart(2, '0')}`;
   };
 
+  // =========================================
+  // LOAD USER
+  // =========================================
+
   useEffect(() => {
-    const storedUser = localStorage.getItem('neon_rider_user');
+    const storedUser =
+      localStorage.getItem('neon_rider_user');
 
     if (storedUser) {
       setCurrentUser(storedUser);
     }
   }, []);
 
-  const exitFullscreenMode = () => {
-    if (document.exitFullscreen) {
-      document.exitFullscreen();
-    } else if (document.webkitExitFullscreen) {
-      document.webkitExitFullscreen();
-    } else if (document.mozCancelFullScreen) {
-      document.mozCancelFullScreen();
-    } else if (document.msExitFullscreen) {
-      document.msExitFullscreen();
+  // =========================================
+  // FULLSCREEN STATE
+  // =========================================
+
+  useEffect(() => {
+    const updateFullscreenState = () => {
+      setIsFullscreen(
+        !!(
+          document.fullscreenElement ||
+          document.webkitFullscreenElement ||
+          document.mozFullScreenElement ||
+          document.msFullscreenElement
+        )
+      );
+    };
+
+    // Check initial state
+    updateFullscreenState();
+
+    // Browser fullscreen changes
+    document.addEventListener(
+      'fullscreenchange',
+      updateFullscreenState
+    );
+
+    document.addEventListener(
+      'webkitfullscreenchange',
+      updateFullscreenState
+    );
+
+    document.addEventListener(
+      'mozfullscreenchange',
+      updateFullscreenState
+    );
+
+    document.addEventListener(
+      'MSFullscreenChange',
+      updateFullscreenState
+    );
+
+    return () => {
+      document.removeEventListener(
+        'fullscreenchange',
+        updateFullscreenState
+      );
+
+      document.removeEventListener(
+        'webkitfullscreenchange',
+        updateFullscreenState
+      );
+
+      document.removeEventListener(
+        'mozfullscreenchange',
+        updateFullscreenState
+      );
+
+      document.removeEventListener(
+        'MSFullscreenChange',
+        updateFullscreenState
+      );
+    };
+  }, []);
+
+  // =========================================
+  // ENTER FULLSCREEN
+  // =========================================
+
+  const enterFullscreenMode = async () => {
+    try {
+      const element = document.documentElement;
+
+      if (element.requestFullscreen) {
+        await element.requestFullscreen();
+      } else if (element.webkitRequestFullscreen) {
+        element.webkitRequestFullscreen();
+      } else if (element.mozRequestFullScreen) {
+        element.mozRequestFullScreen();
+      } else if (element.msRequestFullscreen) {
+        element.msRequestFullscreen();
+      }
+    } catch (error) {
+      console.error(
+        'Unable to enter fullscreen:',
+        error
+      );
+    }
+  };
+
+  // =========================================
+  // EXIT FULLSCREEN
+  // =========================================
+
+  const exitFullscreenMode = async () => {
+    try {
+      if (document.exitFullscreen) {
+        await document.exitFullscreen();
+      } else if (document.webkitExitFullscreen) {
+        document.webkitExitFullscreen();
+      } else if (document.mozCancelFullScreen) {
+        document.mozCancelFullScreen();
+      } else if (document.msExitFullscreen) {
+        document.msExitFullscreen();
+      }
+    } catch (error) {
+      console.error(
+        'Unable to exit fullscreen:',
+        error
+      );
+    }
+  };
+
+  // =========================================
+  // TOGGLE FULLSCREEN
+  // =========================================
+
+  const toggleFullscreen = () => {
+    if (isFullscreen) {
+      exitFullscreenMode();
+    } else {
+      enterFullscreenMode();
     }
   };
 
@@ -47,14 +168,16 @@ export default function HUDOverlay({ speed, distance, time }) {
       <header className="hud-header">
 
         {/* TRANSMISSION / USER */}
+
         <div className="transmission-badge">
 
           <div className="pulse-dot-container">
-            <span className="dot-ping"></span>
-            <span className="dot-core"></span>
+            <span className="dot-ping" />
+            <span className="dot-core" />
           </div>
 
           <div className="text-left">
+
             <div className="link-status">
               TRANSMISSION LINK: ONLINE
             </div>
@@ -62,19 +185,22 @@ export default function HUDOverlay({ speed, distance, time }) {
             <div className="buffer-logs">
               OPERATOR: {currentUser}
             </div>
+
           </div>
 
         </div>
 
 
         {/* =====================================
-            PERFORMANCE GAUGES
+            PERFORMANCE
         ====================================== */}
 
         <div className="performance-blocks">
 
-          {/* TIMER */}
+          {/* TIME */}
+
           <div className="velocity-gauge time-gauge">
+
             <div className="gauge-label">
               ELAPSED TIME
             </div>
@@ -82,26 +208,33 @@ export default function HUDOverlay({ speed, distance, time }) {
             <div className="gauge-value">
               {formatTime(time)}
             </div>
+
           </div>
 
 
           {/* DISTANCE */}
+
           <div className="velocity-gauge distance-gauge">
+
             <div className="gauge-label">
               TOTAL DISTANCE
             </div>
 
             <div className="gauge-value">
+
               {Math.round(distance).toLocaleString()}
 
               <span className="unit-label">
                 M
               </span>
+
             </div>
+
           </div>
 
 
           {/* VELOCITY */}
+
           <div className="velocity-gauge velocity-gauge-main">
 
             <div className="gauge-label">
@@ -109,25 +242,30 @@ export default function HUDOverlay({ speed, distance, time }) {
             </div>
 
             <div className="gauge-value">
+
               {Math.round(speed)}
 
               <span className="unit-label">
                 KM/H
               </span>
+
             </div>
 
             <div className="progress-track">
+
               <div
                 className="progress-fill"
                 style={{
                   width: `${velocityNormalizedRatio * 100}%`
                 }}
               />
+
             </div>
 
           </div>
 
         </div>
+
       </header>
 
 
@@ -137,17 +275,27 @@ export default function HUDOverlay({ speed, distance, time }) {
 
       <footer className="hud-footer">
 
-        {/* EXIT FULLSCREEN */}
+        {/* =====================================
+            FULLSCREEN TOGGLE
+        ====================================== */}
 
         <button
-          onClick={exitFullscreenMode}
+          type="button"
+          onClick={toggleFullscreen}
           className="exit-btn"
+          aria-label={
+            isFullscreen
+              ? 'Exit fullscreen'
+              : 'Enter fullscreen'
+          }
         >
-          ⛶ EXIT FULLSCREEN
+          {isFullscreen
+            ? '⛶ EXIT FULLSCREEN'
+            : '⛶ ENTER FULLSCREEN'}
         </button>
 
 
-        {/* DESKTOP MANEUVERER */}
+        {/* DESKTOP CONTROLS */}
 
         <div className="maneuverer">
 
@@ -180,10 +328,6 @@ export default function HUDOverlay({ speed, distance, time }) {
 
 
       <style jsx>{`
-
-        /* =========================================
-           MAIN HUD
-        ========================================== */
 
         .hud-container {
           position: absolute;
@@ -252,7 +396,6 @@ export default function HUDOverlay({ speed, distance, time }) {
           flex-shrink: 0;
         }
 
-
         .pulse-dot-container {
           position: relative;
 
@@ -261,7 +404,6 @@ export default function HUDOverlay({ speed, distance, time }) {
           width: 12px;
           height: 12px;
         }
-
 
         .dot-ping {
           position: absolute;
@@ -281,7 +423,6 @@ export default function HUDOverlay({ speed, distance, time }) {
             infinite;
         }
 
-
         .dot-core {
           border-radius: 50%;
 
@@ -290,7 +431,6 @@ export default function HUDOverlay({ speed, distance, time }) {
 
           background: #06b6d4;
         }
-
 
         .link-status {
           font-weight: 900;
@@ -304,7 +444,6 @@ export default function HUDOverlay({ speed, distance, time }) {
           white-space: nowrap;
         }
 
-
         .buffer-logs {
           font-size: 9px;
 
@@ -317,7 +456,7 @@ export default function HUDOverlay({ speed, distance, time }) {
 
 
         /* =========================================
-           PERFORMANCE BLOCKS
+           PERFORMANCE
         ========================================== */
 
         .performance-blocks {
@@ -329,7 +468,6 @@ export default function HUDOverlay({ speed, distance, time }) {
 
           min-width: 0;
         }
-
 
         .velocity-gauge {
           background: rgba(2, 4, 9, 0.9);
@@ -347,7 +485,6 @@ export default function HUDOverlay({ speed, distance, time }) {
           min-width: 140px;
         }
 
-
         .gauge-label {
           font-size: 10px;
 
@@ -362,7 +499,6 @@ export default function HUDOverlay({ speed, distance, time }) {
           white-space: nowrap;
         }
 
-
         .gauge-value {
           font-size: 30px;
 
@@ -375,7 +511,6 @@ export default function HUDOverlay({ speed, distance, time }) {
           white-space: nowrap;
         }
 
-
         .unit-label {
           font-size: 12px;
 
@@ -383,11 +518,6 @@ export default function HUDOverlay({ speed, distance, time }) {
 
           margin-left: 4px;
         }
-
-
-        /* =========================================
-           VELOCITY BAR
-        ========================================== */
 
         .progress-track {
           width: 100%;
@@ -404,7 +534,6 @@ export default function HUDOverlay({ speed, distance, time }) {
 
           border: 1px solid #1e293b;
         }
-
 
         .progress-fill {
           height: 100%;
@@ -438,7 +567,7 @@ export default function HUDOverlay({ speed, distance, time }) {
 
 
         /* =========================================
-           EXIT BUTTON
+           FULLSCREEN BUTTON
         ========================================== */
 
         .exit-btn {
@@ -462,15 +591,26 @@ export default function HUDOverlay({ speed, distance, time }) {
 
           transition:
             background 0.15s ease,
-            box-shadow 0.15s ease;
-        }
+            box-shadow 0.15s ease,
+            color 0.15s ease;
 
+          touch-action: manipulation;
+        }
 
         .exit-btn:hover {
           background: rgba(244, 63, 94, 0.12);
 
           box-shadow:
             0 0 12px rgba(244, 63, 94, 0.25);
+        }
+
+        .exit-btn:active {
+          transform: scale(0.97);
+        }
+
+        .exit-btn:focus-visible {
+          outline: 2px solid #22d3ee;
+          outline-offset: 2px;
         }
 
 
@@ -486,8 +626,9 @@ export default function HUDOverlay({ speed, distance, time }) {
           align-items: center;
 
           flex: 1;
-        }
 
+          min-width: 0;
+        }
 
         .controls-tip {
           background: rgba(2, 4, 9, 0.9);
@@ -505,17 +646,13 @@ export default function HUDOverlay({ speed, distance, time }) {
           white-space: nowrap;
         }
 
-
         .highlight-white {
           color: #ffffff;
-
           font-weight: bold;
         }
 
-
         .highlight-cyan {
           color: #22d3ee;
-
           font-weight: bold;
         }
 
@@ -538,6 +675,12 @@ export default function HUDOverlay({ speed, distance, time }) {
           color: #475569;
 
           white-space: nowrap;
+
+          min-width: 0;
+
+          overflow: hidden;
+
+          text-overflow: ellipsis;
         }
 
 
@@ -557,7 +700,6 @@ export default function HUDOverlay({ speed, distance, time }) {
 
           .velocity-gauge {
             min-width: 105px;
-
             padding: 12px;
           }
 
@@ -567,20 +709,18 @@ export default function HUDOverlay({ speed, distance, time }) {
 
           .transmission-badge {
             padding: 10px 14px;
-
             gap: 10px;
           }
 
           .controls-tip {
             font-size: 9px;
-
             padding: 10px 16px;
           }
         }
 
 
         /* =========================================
-           MOBILE PORTRAIT
+           MOBILE
         ========================================== */
 
         @media (max-width: 768px) {
@@ -593,12 +733,7 @@ export default function HUDOverlay({ speed, distance, time }) {
             justify-content: flex-start;
           }
 
-
-          /* TOP ROW */
-
           .hud-header {
-            display: flex;
-
             flex-direction: column;
 
             width: 100%;
@@ -606,11 +741,10 @@ export default function HUDOverlay({ speed, distance, time }) {
             gap: 7px;
           }
 
-
-          /* TRANSMISSION BECOMES COMPACT */
-
           .transmission-badge {
             width: fit-content;
+
+            max-width: 75vw;
 
             padding: 6px 9px;
 
@@ -621,34 +755,25 @@ export default function HUDOverlay({ speed, distance, time }) {
             opacity: 0.9;
           }
 
-
           .pulse-dot-container {
             width: 7px;
             height: 7px;
           }
-
 
           .dot-core {
             width: 7px;
             height: 7px;
           }
 
-
           .link-status {
             font-size: 7px;
-
             letter-spacing: 0.12em;
           }
 
-
           .buffer-logs {
             font-size: 6px;
-
             margin-top: 1px;
           }
-
-
-          /* PERFORMANCE */
 
           .performance-blocks {
             width: 100%;
@@ -656,11 +781,10 @@ export default function HUDOverlay({ speed, distance, time }) {
             display: grid;
 
             grid-template-columns:
-              repeat(3, 1fr);
+              repeat(3, minmax(0, 1fr));
 
             gap: 5px;
           }
-
 
           .velocity-gauge {
             min-width: 0;
@@ -671,11 +795,8 @@ export default function HUDOverlay({ speed, distance, time }) {
 
             border-radius: 7px;
 
-            box-sizing: border-box;
-
             text-align: center;
           }
-
 
           .gauge-label {
             font-size: 6px;
@@ -689,33 +810,20 @@ export default function HUDOverlay({ speed, distance, time }) {
             text-overflow: ellipsis;
           }
 
-
           .gauge-value {
             font-size: 16px;
-
             letter-spacing: 0;
           }
 
-
           .unit-label {
             font-size: 7px;
-
             margin-left: 2px;
           }
 
-
-          /* VELOCITY BAR */
-
           .progress-track {
             height: 3px;
-
             margin-top: 5px;
           }
-
-
-          /* =====================================
-             MOBILE FOOTER
-          ====================================== */
 
           .hud-footer {
             position: absolute;
@@ -736,21 +844,9 @@ export default function HUDOverlay({ speed, distance, time }) {
             gap: 8px;
           }
 
-
-          /*
-           * IMPORTANT:
-           *
-           * Mobile uses:
-           * LEFT / ACCEL / RIGHT
-           *
-           * Therefore desktop maneuver instructions
-           * disappear.
-           */
-
           .maneuverer {
             display: none !important;
           }
-
 
           .exit-btn {
             font-size: 8px;
@@ -760,7 +856,6 @@ export default function HUDOverlay({ speed, distance, time }) {
             border-radius: 7px;
           }
 
-
           .region-tag {
             font-size: 7px;
 
@@ -769,10 +864,6 @@ export default function HUDOverlay({ speed, distance, time }) {
             border-radius: 6px;
 
             max-width: 45vw;
-
-            overflow: hidden;
-
-            text-overflow: ellipsis;
           }
         }
 
@@ -787,31 +878,25 @@ export default function HUDOverlay({ speed, distance, time }) {
             padding: 7px;
           }
 
-
           .performance-blocks {
             gap: 3px;
           }
-
 
           .velocity-gauge {
             padding: 5px 2px;
           }
 
-
           .gauge-label {
             font-size: 5px;
           }
-
 
           .gauge-value {
             font-size: 14px;
           }
 
-
           .unit-label {
             display: none;
           }
-
 
           .hud-footer {
             left: 7px;
@@ -820,13 +905,11 @@ export default function HUDOverlay({ speed, distance, time }) {
             bottom: 96px;
           }
 
-
           .exit-btn {
             font-size: 7px;
 
             padding: 6px 7px;
           }
-
 
           .region-tag {
             font-size: 6px;
@@ -848,7 +931,6 @@ export default function HUDOverlay({ speed, distance, time }) {
             padding: 6px 10px;
           }
 
-
           .hud-header {
             flex-direction: row;
 
@@ -857,21 +939,17 @@ export default function HUDOverlay({ speed, distance, time }) {
             gap: 8px;
           }
 
-
           .transmission-badge {
             padding: 5px 8px;
           }
-
 
           .link-status {
             font-size: 6px;
           }
 
-
           .buffer-logs {
             font-size: 5px;
           }
-
 
           .performance-blocks {
             width: auto;
@@ -881,7 +959,6 @@ export default function HUDOverlay({ speed, distance, time }) {
             gap: 4px;
           }
 
-
           .velocity-gauge {
             min-width: 70px;
 
@@ -890,33 +967,23 @@ export default function HUDOverlay({ speed, distance, time }) {
             border-radius: 6px;
           }
 
-
           .gauge-label {
             font-size: 5px;
           }
-
 
           .gauge-value {
             font-size: 13px;
           }
 
-
           .unit-label {
             display: none;
           }
-
 
           .progress-track {
             height: 2px;
 
             margin-top: 3px;
           }
-
-
-          /*
-           * Mobile controls are at the bottom,
-           * so leave room for them.
-           */
 
           .hud-footer {
             position: absolute;
@@ -929,18 +996,15 @@ export default function HUDOverlay({ speed, distance, time }) {
             width: auto;
           }
 
-
           .maneuverer {
             display: none !important;
           }
-
 
           .exit-btn {
             font-size: 7px;
 
             padding: 5px 8px;
           }
-
 
           .region-tag {
             font-size: 6px;
@@ -960,21 +1024,17 @@ export default function HUDOverlay({ speed, distance, time }) {
             padding-top: 4px;
           }
 
-
           .transmission-badge {
             padding: 4px 7px;
           }
-
 
           .performance-blocks {
             gap: 3px;
           }
 
-
           .velocity-gauge {
             padding: 3px 5px;
           }
-
 
           .hud-footer {
             bottom: 68px;
@@ -987,14 +1047,11 @@ export default function HUDOverlay({ speed, distance, time }) {
         ========================================== */
 
         @keyframes pingPulse {
-
           75%,
           100% {
             transform: scale(2.5);
-
             opacity: 0;
           }
-
         }
 
       `}</style>

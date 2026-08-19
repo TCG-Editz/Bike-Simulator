@@ -1,1682 +1,1396 @@
-/* =====================================================
-NEON RIDER GLOBAL
-AAA GAME LAUNCHER STYLESHEET
-PART 1
-BACKGROUND + CORE LAYOUT
-===================================================== */
-
-:root {
---cyan: #22d3ee;
---cyan-dark: #06b6d4;
---purple: #8b5cf6;
---bg: #020409;
---panel: rgba(8, 15, 25, 0.75);
---border: rgba(34, 211, 238, 0.2);
---text: #e2e8f0;
---muted: #64748b;
-}
-
-:global(*) {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+/* =========================================================
+   NEON RIDER GLOBAL
+   STATIC AAA LAUNCHER
+   ZERO PAGE SCROLL
+   MOBILE / IOS / ANDROID / MACOS / DESKTOP
+   ========================================================= */
 
 .portalContainer {
-position: relative;
-width: 100vw;
-height: 100vh;
-overflow: hidden;
+  --cyan: #22d3ee;
+  --cyan-bright: #67e8f9;
+  --cyan-dark: #0891b2;
+  --purple: #8b5cf6;
 
-display: flex;
-justify-content: center;
-align-items: center;
+  --bg: #02050b;
+  --panel: rgba(7, 13, 23, 0.96);
 
-background:
-radial-gradient(
-circle at 20% 20%,
-rgba(34,211,238,.12),
-transparent 40%
-),
-radial-gradient(
-circle at 80% 20%,
-rgba(139,92,246,.12),
-transparent 40%
-),
-#020409;
+  --border: rgba(103, 232, 249, 0.18);
+  --border-strong: rgba(103, 232, 249, 0.42);
 
-font-family:
-Inter,
-system-ui,
-sans-serif;
+  --text: #f8fafc;
+  --muted: #7c8ca3;
 
-color: var(--text);
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+
+  position: fixed;
+  inset: 0;
+
+  width: 100%;
+  height: 100vh;
+  height: 100svh;
+  height: 100dvh;
+
+  overflow: hidden;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  box-sizing: border-box;
+
+  padding:
+    calc(64px + var(--safe-top))
+    calc(14px + var(--safe-right))
+    calc(58px + var(--safe-bottom))
+    calc(14px + var(--safe-left));
+
+  isolation: isolate;
+
+  background:
+    radial-gradient(
+      circle at 12% 8%,
+      rgba(34, 211, 238, 0.12),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 88% 12%,
+      rgba(139, 92, 246, 0.12),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 50% 100%,
+      rgba(37, 99, 235, 0.08),
+      transparent 40%
+    ),
+    #02050b;
+
+  color: var(--text);
+
+  font-family:
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+
+  -webkit-tap-highlight-color: transparent;
 }
 
-/* =====================================================
-CURSOR GLOW
-===================================================== */
+/* =========================================================
+   BACKGROUND
+   ========================================================= */
 
-.cursorGlow {
-position: fixed;
+.portalContainer::before {
+  content: "";
 
-width: 600px;
-height: 600px;
+  position: absolute;
+  inset: 0;
 
-border-radius: 50%;
+  background:
+    linear-gradient(
+      rgba(34, 211, 238, 0.025) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(34, 211, 238, 0.025) 1px,
+      transparent 1px
+    );
 
-pointer-events: none;
+  background-size: 64px 64px;
 
-transform:
-translate(-50%, -50%);
+  pointer-events: none;
 
-background:
-radial-gradient(
-circle,
-rgba(34,211,238,.18),
-rgba(34,211,238,.08),
-transparent 70%
-);
-
-filter: blur(40px);
-
-z-index: 1;
-
-transition:
-left .08s linear,
-top .08s linear;
+  z-index: -3;
 }
 
-/* =====================================================
-CYBER GRID
-===================================================== */
+.portalContainer::after {
+  content: "";
 
-.grid {
-position: absolute;
+  position: absolute;
+  inset: 0;
 
-bottom: -20%;
-left: -50%;
+  background:
+    radial-gradient(
+      ellipse at center,
+      transparent 20%,
+      rgba(0, 0, 0, 0.65) 100%
+    );
 
-width: 200%;
-height: 120%;
+  pointer-events: none;
 
-background-image:
-linear-gradient(
-rgba(34,211,238,.12) 2px,
-transparent 2px
-),
-linear-gradient(
-90deg,
-rgba(34,211,238,.12) 2px,
-transparent 2px
-);
-
-background-size:
-120px 120px;
-
-transform:
-perspective(900px)
-rotateX(82deg);
-
-animation:
-gridFlow 12s linear infinite;
-
-z-index: 0;
+  z-index: -1;
 }
 
-@keyframes gridFlow {
-from {
-background-position:
-0 0,
-0 0;
-}
-
-to {
-background-position:
-0 120px,
-120px 0;
-}
-}
-
-/* =====================================================
-AURORA
-===================================================== */
+/* =========================================================
+   AMBIENT LIGHT
+   ========================================================= */
 
 .aurora {
-position: absolute;
-inset: 0;
+  position: absolute;
 
-background:
-radial-gradient(
-circle at 20% 20%,
-rgba(34,211,238,.25),
-transparent 40%
-),
-radial-gradient(
-circle at 70% 30%,
-rgba(139,92,246,.25),
-transparent 45%
-),
-radial-gradient(
-circle at 50% 80%,
-rgba(59,130,246,.20),
-transparent 50%
-);
+  width: min(600px, 100vw);
+  height: min(600px, 100vw);
 
-filter: blur(120px);
+  left: -240px;
+  top: -240px;
 
-animation:
-auroraMove 18s ease infinite;
+  border-radius: 50%;
 
-z-index: 0;
+  background:
+    radial-gradient(
+      circle,
+      rgba(34, 211, 238, 0.13),
+      transparent 68%
+    );
+
+  filter: blur(70px);
+
+  pointer-events: none;
+
+  z-index: -2;
 }
-
-@keyframes auroraMove {
-
-0% {
-transform:
-scale(1)
-translate(0,0);
-}
-
-50% {
-transform:
-scale(1.2)
-translate(-3%,2%);
-}
-
-100% {
-transform:
-scale(1)
-translate(0,0);
-}
-}
-
-/* =====================================================
-RADAR
-===================================================== */
-
-.radar {
-position: absolute;
-
-width: 180vmax;
-height: 180vmax;
-
-top: 50%;
-left: 50%;
-
-transform:
-translate(-50%, -50%);
-
-border-radius: 50%;
-
-background:
-conic-gradient(
-transparent,
-rgba(34,211,238,.12),
-transparent
-);
-
-animation:
-radarRotate 16s linear infinite;
-
-z-index: 0;
-}
-
-@keyframes radarRotate {
-to {
-transform:
-translate(-50%, -50%)
-rotate(360deg);
-}
-}
-
-/* =====================================================
-ORBS
-===================================================== */
 
 .orb1,
 .orb2,
 .orb3 {
-position: absolute;
-border-radius: 50%;
-filter: blur(80px);
-z-index: 0;
+  position: absolute;
+
+  border-radius: 50%;
+
+  pointer-events: none;
+
+  z-index: -2;
 }
 
 .orb1 {
-width: 500px;
-height: 500px;
+  width: 320px;
+  height: 320px;
 
-background:
-rgba(34,211,238,.15);
+  left: -180px;
+  top: 5%;
 
-top: 5%;
-left: 5%;
+  background:
+    radial-gradient(
+      circle,
+      rgba(34, 211, 238, 0.1),
+      transparent 70%
+    );
 
-animation:
-orbFloat1 15s ease infinite;
+  filter: blur(40px);
 }
 
 .orb2 {
-width: 400px;
-height: 400px;
+  width: 320px;
+  height: 320px;
 
-background:
-rgba(139,92,246,.15);
+  right: -180px;
+  top: 10%;
 
-right: 10%;
-top: 20%;
+  background:
+    radial-gradient(
+      circle,
+      rgba(139, 92, 246, 0.1),
+      transparent 70%
+    );
 
-animation:
-orbFloat2 18s ease infinite;
+  filter: blur(45px);
 }
 
 .orb3 {
-width: 450px;
-height: 450px;
+  width: 380px;
+  height: 380px;
 
-background:
-rgba(59,130,246,.12);
+  left: 50%;
+  bottom: -280px;
 
-bottom: 0;
-left: 30%;
+  transform: translateX(-50%);
 
-animation:
-orbFloat3 22s ease infinite;
+  background:
+    radial-gradient(
+      circle,
+      rgba(59, 130, 246, 0.08),
+      transparent 70%
+    );
+
+  filter: blur(50px);
 }
 
-@keyframes orbFloat1 {
-50% {
-transform:
-translateY(-80px)
-translateX(40px);
-}
-}
+/* =========================================================
+   STATIC HUD
+   ========================================================= */
 
-@keyframes orbFloat2 {
-50% {
-transform:
-translateY(60px)
-translateX(-80px);
-}
-}
+.techLine1,
+.techLine2 {
+  position: absolute;
 
-@keyframes orbFloat3 {
-50% {
-transform:
-translateY(-60px)
-translateX(80px);
-}
+  pointer-events: none;
+
+  opacity: 0.25;
+
+  z-index: -1;
 }
 
-/* =====================================================
-SCANLINES
-===================================================== */
+.techLine1 {
+  width: 100%;
+  height: 1px;
 
-.scanline {
-position: absolute;
-inset: 0;
+  top: 18%;
 
-background:
-repeating-linear-gradient(
-to bottom,
-transparent,
-transparent 3px,
-rgba(255,255,255,.02) 4px
-);
-
-pointer-events: none;
-
-z-index: 20;
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(34, 211, 238, 0.3),
+      transparent
+    );
 }
 
-/* =====================================================
-NOISE
-===================================================== */
+.techLine2 {
+  width: 1px;
+  height: 100%;
 
-.noise {
-position: absolute;
-inset: 0;
+  left: 12%;
 
-opacity: .035;
-
-background-image:
-radial-gradient(
-rgba(255,255,255,.7) 1px,
-transparent 1px
-);
-
-background-size:
-4px 4px;
-
-animation:
-noiseMove .3s infinite;
-
-z-index: 21;
+  background:
+    linear-gradient(
+      transparent,
+      rgba(34, 211, 238, 0.18),
+      transparent
+    );
 }
 
-@keyframes noiseMove {
-50% {
-transform:
-translate(2px, -2px);
-}
+/* =========================================================
+   DECORATIVE RINGS
+   ========================================================= */
+
+.energyRing,
+.energyRing2 {
+  position: absolute;
+
+  left: 50%;
+  top: 50%;
+
+  border-radius: 50%;
+
+  transform: translate(-50%, -50%);
+
+  pointer-events: none;
+
+  z-index: -2;
 }
 
-/* =====================================================
-MAIN LAUNCHER PANEL
-===================================================== */
+.energyRing {
+  width: min(900px, 125vw);
+  height: min(900px, 125vw);
+
+  border: 1px solid rgba(34, 211, 238, 0.035);
+}
+
+.energyRing2 {
+  width: min(1200px, 165vw);
+  height: min(1200px, 165vw);
+
+  border: 1px solid rgba(139, 92, 246, 0.025);
+}
+
+/* =========================================================
+   DISABLE OLD FX
+   ========================================================= */
+
+.grid,
+.radar,
+.scanline,
+.noise,
+.starField,
+.hexGrid,
+.digitalRain,
+.circuitOverlay,
+.particleLayer,
+.cursorGlow {
+  display: none !important;
+}
+
+/* =========================================================
+   HUD TELEMETRY
+   ========================================================= */
+
+.hudTopLeft,
+.hudTopRight,
+.hudBottomLeft,
+.hudBottomRight {
+  position: absolute;
+
+  z-index: 10;
+
+  color: rgba(103, 232, 249, 0.5);
+
+  font-family:
+    "SFMono-Regular",
+    Consolas,
+    "Liberation Mono",
+    monospace;
+
+  font-size: 8px;
+  font-weight: 600;
+
+  letter-spacing: 1.5px;
+
+  text-transform: uppercase;
+
+  white-space: nowrap;
+
+  pointer-events: none;
+}
+
+.hudTopLeft {
+  top: calc(12px + var(--safe-top));
+  left: calc(14px + var(--safe-left));
+}
+
+.hudTopRight {
+  top: calc(12px + var(--safe-top));
+  right: calc(14px + var(--safe-right));
+}
+
+.hudBottomLeft {
+  bottom: calc(12px + var(--safe-bottom));
+  left: calc(14px + var(--safe-left));
+}
+
+.hudBottomRight {
+  bottom: calc(12px + var(--safe-bottom));
+  right: calc(14px + var(--safe-right));
+}
+
+/* =========================================================
+   MUSIC CONTROLS
+   ========================================================= */
+
+.musicControls {
+  position: fixed;
+
+  top: calc(10px + var(--safe-top));
+  right: calc(12px + var(--safe-right));
+
+  display: flex;
+  align-items: center;
+
+  gap: 6px;
+
+  z-index: 300;
+}
+
+.musicButton,
+.trackButton {
+  min-height: 38px;
+
+  border: 1px solid var(--border);
+
+  border-radius: 9px;
+
+  background: rgba(3, 8, 15, 0.96);
+
+  color: var(--cyan-bright);
+
+  box-shadow:
+    0 8px 25px rgba(0, 0, 0, 0.28);
+
+  cursor: pointer;
+
+  -webkit-appearance: none;
+  appearance: none;
+
+  touch-action: manipulation;
+}
+
+.musicButton {
+  width: 38px;
+
+  padding: 0;
+
+  font-size: 15px;
+}
+
+.trackButton {
+  padding: 0 11px;
+
+  font-family:
+    "SFMono-Regular",
+    Consolas,
+    monospace;
+
+  font-size: 8px;
+  font-weight: 700;
+
+  letter-spacing: 1px;
+}
+
+.musicButton:active,
+.trackButton:active {
+  background: rgba(34, 211, 238, 0.15);
+}
+
+/* =========================================================
+   TRACK POPUP
+   ========================================================= */
+
+.trackSelectorPopup {
+  position: fixed;
+
+  top: calc(56px + var(--safe-top));
+  right: calc(12px + var(--safe-right));
+
+  width: min(290px, calc(100vw - 24px));
+
+  box-sizing: border-box;
+
+  max-height: calc(
+    100dvh - 70px - var(--safe-top) - var(--safe-bottom)
+  );
+
+  overflow: hidden;
+
+  padding: 12px;
+
+  border: 1px solid var(--border-strong);
+
+  border-radius: 14px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(10, 20, 33, 0.99),
+      rgba(3, 8, 15, 0.99)
+    );
+
+  box-shadow:
+    0 25px 70px rgba(0, 0, 0, 0.6),
+    0 0 35px rgba(34, 211, 238, 0.08);
+
+  z-index: 400;
+}
+
+.trackTitle {
+  margin: 0 0 8px;
+
+  color: var(--cyan-bright);
+
+  font-family:
+    "SFMono-Regular",
+    Consolas,
+    monospace;
+
+  font-size: 8px;
+  font-weight: 700;
+
+  letter-spacing: 2px;
+}
+
+.trackOption {
+  display: block;
+
+  width: 100%;
+
+  min-height: 36px;
+
+  margin: 5px 0;
+
+  padding: 7px 9px;
+
+  box-sizing: border-box;
+
+  border: 1px solid rgba(34, 211, 238, 0.13);
+
+  border-radius: 8px;
+
+  background: rgba(34, 211, 238, 0.035);
+
+  color: #dce8f3;
+
+  text-align: left;
+
+  font-family:
+    "SFMono-Regular",
+    Consolas,
+    monospace;
+
+  font-size: 8px;
+
+  cursor: pointer;
+
+  touch-action: manipulation;
+
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.trackOption:active {
+  background: rgba(34, 211, 238, 0.14);
+
+  border-color: var(--cyan);
+}
+
+/* =========================================================
+   MAIN PANEL
+   ========================================================= */
 
 .layoutWrapper {
-position: relative;
+  position: relative;
 
-z-index: 50;
+  z-index: 50;
 
-width: 92%;
-max-width: 720px;
+  width: min(680px, 100%);
 
-padding: 50px;
+  /*
+    Never allow the panel to exceed the available viewport.
+  */
+  max-height: calc(
+    100dvh - 118px - var(--safe-top) - var(--safe-bottom)
+  );
 
-border-radius: 28px;
+  box-sizing: border-box;
 
-background:
-linear-gradient(
-135deg,
-rgba(255,255,255,.08),
-rgba(255,255,255,.02)
-);
+  padding:
+    clamp(20px, 4vw, 44px)
+    clamp(16px, 5vw, 44px);
 
-backdrop-filter:
-blur(24px);
+  overflow: hidden;
 
-border:
-1px solid rgba(34,211,238,.18);
+  border: 1px solid rgba(103, 232, 249, 0.18);
 
-box-shadow:
-0 0 50px rgba(34,211,238,.12),
-inset 0 0 30px rgba(255,255,255,.03);
+  border-radius: clamp(18px, 3vw, 26px);
 
-animation:
-panelEntrance .9s ease,
-panelFloat 8s ease-in-out infinite;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(13, 24, 39, 0.98),
+      rgba(4, 9, 17, 0.98)
+    );
+
+  box-shadow:
+    0 25px 80px rgba(0, 0, 0, 0.55),
+    0 0 60px rgba(34, 211, 238, 0.08);
+
+  isolation: isolate;
 }
 
-@keyframes panelEntrance {
+/* Border */
 
-from {
-opacity: 0;
-transform:
-translateY(40px);
+.layoutWrapper::before {
+  content: "";
+
+  position: absolute;
+
+  inset: 0;
+
+  border-radius: inherit;
+
+  border: 1px solid rgba(103, 232, 249, 0.08);
+
+  pointer-events: none;
 }
 
-to {
-opacity: 1;
-transform:
-translateY(0);
-}
+/* Side cyan accent */
+
+.layoutWrapper::after {
+  content: "";
+
+  position: absolute;
+
+  right: 0;
+  top: 20%;
+
+  width: 2px;
+  height: 60%;
+
+  background:
+    linear-gradient(
+      transparent,
+      var(--cyan),
+      transparent
+    );
+
+  opacity: 0.7;
+
+  pointer-events: none;
 }
 
-@keyframes panelFloat {
-
-50% {
-transform:
-translateY(-8px);
-}
-}
-/* =====================================================
-HUD CORNERS
-===================================================== */
+/* =========================================================
+   CORNERS
+   ========================================================= */
 
 .cornerTL,
 .cornerTR,
 .cornerBL,
 .cornerBR {
-position: absolute;
-width: 36px;
-height: 36px;
-z-index: 5;
+  position: absolute;
+
+  width: 27px;
+  height: 27px;
+
+  opacity: 0.7;
+
+  pointer-events: none;
 }
 
 .cornerTL {
-top: 12px;
-left: 12px;
-border-top: 2px solid var(--cyan);
-border-left: 2px solid var(--cyan);
+  top: 10px;
+  left: 10px;
+
+  border-top: 2px solid var(--cyan);
+  border-left: 2px solid var(--cyan);
 }
 
 .cornerTR {
-top: 12px;
-right: 12px;
-border-top: 2px solid var(--cyan);
-border-right: 2px solid var(--cyan);
+  top: 10px;
+  right: 10px;
+
+  border-top: 2px solid var(--cyan);
+  border-right: 2px solid var(--cyan);
 }
 
 .cornerBL {
-bottom: 12px;
-left: 12px;
-border-bottom: 2px solid var(--cyan);
-border-left: 2px solid var(--cyan);
+  bottom: 10px;
+  left: 10px;
+
+  border-bottom: 2px solid var(--cyan);
+  border-left: 2px solid var(--cyan);
 }
 
 .cornerBR {
-bottom: 12px;
-right: 12px;
-border-bottom: 2px solid var(--cyan);
-border-right: 2px solid var(--cyan);
+  bottom: 10px;
+  right: 10px;
+
+  border-bottom: 2px solid var(--cyan);
+  border-right: 2px solid var(--cyan);
 }
 
-/* =====================================================
-HEADER
-===================================================== */
+/* =========================================================
+   HEADER
+   ========================================================= */
 
 .header {
-text-align: center;
-margin-bottom: 32px;
+  text-align: center;
+
+  margin-bottom: clamp(16px, 3vw, 26px);
 }
 
 .systemTag {
-color: var(--muted);
-font-size: 11px;
-letter-spacing: 5px;
-margin-bottom: 12px;
-text-transform: uppercase;
+  margin-bottom: 10px;
+
+  color: var(--muted);
+
+  font-family:
+    "SFMono-Regular",
+    Consolas,
+    monospace;
+
+  font-size: clamp(7px, 1.3vw, 10px);
+
+  font-weight: 700;
+
+  letter-spacing: clamp(2px, 0.6vw, 4px);
+
+  text-transform: uppercase;
 }
-
-.divider {
-height: 2px;
-width: 100%;
-margin-top: 20px;
-
-background:
-linear-gradient(
-90deg,
-transparent,
-var(--cyan),
-transparent
-);
-
-animation:
-dividerPulse 4s ease infinite;
-}
-
-@keyframes dividerPulse {
-
-50% {
-opacity: .5;
-}
-}
-
-/* =====================================================
-TITLE
-===================================================== */
 
 .title {
-position: relative;
+  margin: 0;
 
-font-size:
-clamp(4rem, 8vw, 6.5rem);
+  font-size:
+    clamp(2.55rem, 10vw, 6rem);
 
-font-weight: 900;
+  font-weight: 950;
 
-line-height: 1;
+  line-height: 0.9;
 
-letter-spacing: -4px;
+  letter-spacing: -0.075em;
 
-color: white;
+  color: #f8fafc;
 
-text-transform: uppercase;
+  text-transform: uppercase;
+
+  text-shadow:
+    0 0 30px rgba(255, 255, 255, 0.08);
 }
 
 .neonText {
-color: var(--cyan);
+  color: var(--cyan-bright);
 
-text-shadow:
-0 0 8px var(--cyan),
-0 0 20px var(--cyan),
-0 0 40px var(--cyan),
-0 0 80px var(--cyan);
-
-animation:
-neonPulse 4s ease infinite;
+  text-shadow:
+    0 0 10px rgba(34, 211, 238, 0.65),
+    0 0 30px rgba(34, 211, 238, 0.25);
 }
 
-@keyframes neonPulse {
+.divider {
+  width: 100%;
+  height: 1px;
 
-0%,
-100% {
-opacity: 1;
+  margin-top: clamp(14px, 2vw, 22px);
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(34, 211, 238, 0.7),
+      transparent
+    );
 }
 
-50% {
-opacity: .8;
-}
-}
-
-/* =====================================================
-GLITCH LAYERS
-===================================================== */
-
-.title::before,
-.title::after {
-content: attr(data-text);
-
-position: absolute;
-
-left: 0;
-top: 0;
-
-width: 100%;
-
-overflow: hidden;
-}
-
-.title::before {
-color: #ff00aa;
-
-transform:
-translateX(-2px);
-
-opacity: .25;
-
-animation:
-glitchLeft 4s infinite;
-}
-
-.title::after {
-color: #00ffff;
-
-transform:
-translateX(2px);
-
-opacity: .25;
-
-animation:
-glitchRight 4s infinite;
-}
-
-@keyframes glitchLeft {
-
-0%,
-92%,
-100% {
-clip-path:
-inset(0 0 0 0);
-}
-
-94% {
-clip-path:
-inset(10% 0 70% 0);
-}
-
-96% {
-clip-path:
-inset(50% 0 10% 0);
-}
-}
-
-@keyframes glitchRight {
-
-0%,
-92%,
-100% {
-clip-path:
-inset(0 0 0 0);
-}
-
-95% {
-clip-path:
-inset(20% 0 60% 0);
-}
-
-97% {
-clip-path:
-inset(70% 0 10% 0);
-}
-}
-
-/* =====================================================
-INPUT SECTION
-===================================================== */
+/* =========================================================
+   INPUT
+   ========================================================= */
 
 .inputSection {
-width: 100%;
+  width: 100%;
 }
 
 .inputField {
-width: 100%;
+  display: block;
 
-padding: 18px;
+  width: 100%;
 
-background:
-rgba(0,0,0,.35);
+  height: clamp(46px, 6vh, 54px);
 
-border:
-1px solid rgba(34,211,238,.18);
+  padding: 0 16px;
 
-border-radius: 14px;
+  box-sizing: border-box;
 
-color: white;
+  border: 1px solid rgba(103, 232, 249, 0.18);
 
-text-align: center;
+  border-radius: 11px;
 
-letter-spacing: .3em;
+  outline: none;
 
-font-size: 14px;
+  background: rgba(0, 0, 0, 0.3);
 
-outline: none;
+  color: white;
 
-transition:
-.3s ease;
+  text-align: center;
+
+  font-family:
+    "SFMono-Regular",
+    Consolas,
+    monospace;
+
+  font-size: clamp(11px, 2vw, 14px);
+
+  font-weight: 700;
+
+  letter-spacing: 0.15em;
+
+  -webkit-appearance: none;
+  appearance: none;
 }
 
 .inputField::placeholder {
-color: rgba(255,255,255,.4);
-}
-
-.inputField:hover {
-border-color:
-rgba(34,211,238,.45);
+  color: rgba(203, 213, 225, 0.38);
 }
 
 .inputField:focus {
-border-color:
-var(--cyan);
+  border-color: var(--cyan);
 
-box-shadow:
-0 0 0 2px rgba(34,211,238,.15),
-0 0 20px rgba(34,211,238,.25),
-inset 0 0 20px rgba(34,211,238,.08);
+  background:
+    rgba(34, 211, 238, 0.035);
+
+  box-shadow:
+    0 0 0 3px rgba(34, 211, 238, 0.08),
+    0 0 25px rgba(34, 211, 238, 0.1);
 }
 
-/* =====================================================
-BUTTON
-===================================================== */
+/* =========================================================
+   BUTTON
+   ========================================================= */
 
 .button {
-position: relative;
+  display: block;
 
-overflow: hidden;
+  width: 100%;
 
-width: 100%;
+  height: clamp(46px, 6vh, 54px);
 
-margin-top: 16px;
+  margin-top: 10px;
 
-padding: 18px;
+  padding: 0 16px;
 
-border: none;
+  box-sizing: border-box;
 
-border-radius: 14px;
+  border: 1px solid rgba(103, 232, 249, 0.6);
 
-background:
-linear-gradient(
-135deg,
-var(--cyan),
-var(--cyan-dark)
-);
+  border-radius: 11px;
 
-color: #021018;
+  background:
+    linear-gradient(
+      135deg,
+      #67e8f9,
+      #22d3ee 50%,
+      #0891b2
+    );
 
-font-weight: 900;
+  color: #021018;
 
-letter-spacing: 3px;
+  font-size: clamp(9px, 1.6vw, 12px);
 
-cursor: pointer;
+  font-weight: 900;
 
-transition:
-.3s ease;
-}
+  letter-spacing: clamp(1.5px, 0.4vw, 3px);
 
-.button::before {
-content: "";
+  cursor: pointer;
 
-position: absolute;
+  box-shadow:
+    0 12px 35px rgba(34, 211, 238, 0.15);
 
-width: 80px;
-height: 200%;
+  touch-action: manipulation;
 
-top: -50%;
-left: -120px;
-
-background:
-rgba(255,255,255,.4);
-
-transform:
-rotate(25deg);
-
-transition:
-.8s;
-}
-
-.button:hover::before {
-left: 120%;
-}
-
-.button:hover {
-transform:
-translateY(-2px);
-
-box-shadow:
-0 10px 35px rgba(34,211,238,.4);
+  -webkit-appearance: none;
+  appearance: none;
 }
 
 .button:active {
-transform:
-translateY(0);
+  transform: scale(0.985);
 }
 
 .button:disabled {
-opacity: .7;
-cursor: not-allowed;
+  opacity: 0.6;
+
+  cursor: not-allowed;
 }
 
-/* =====================================================
-LEADERBOARD CARD
-===================================================== */
+/* =========================================================
+   LEADERBOARD
+   ========================================================= */
 
 .leaderboardCard {
-margin-top: 28px;
+  position: relative;
 
-padding: 22px;
+  margin-top: clamp(14px, 2.5vw, 22px);
 
-border-radius: 18px;
+  padding: clamp(10px, 2vw, 18px);
 
-background:
-rgba(0,0,0,.25);
+  /*
+    Important:
+    The card itself never creates page scrolling.
+  */
+  overflow: hidden;
 
-border:
-1px solid rgba(34,211,238,.12);
+  border: 1px solid rgba(103, 232, 249, 0.1);
 
-backdrop-filter:
-blur(10px);
+  border-radius: 14px;
 
-position: relative;
+  background:
+    rgba(0, 0, 0, 0.22);
 }
 
 .leaderboardCard::before {
-content: "";
+  content: "";
 
-position: absolute;
+  position: absolute;
 
-left: 0;
-top: 0;
+  top: 0;
+  left: 10%;
 
-width: 100%;
-height: 1px;
+  width: 80%;
+  height: 1px;
 
-background:
-linear-gradient(
-90deg,
-transparent,
-var(--cyan),
-transparent
-);
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      var(--cyan),
+      transparent
+    );
+
+  opacity: 0.65;
 }
 
-.cardHeader {
-color: var(--cyan);
-
-font-size: 11px;
-
-letter-spacing: 4px;
-
-margin-bottom: 16px;
-
-text-transform: uppercase;
-}
-
-/* =====================================================
-FOOTER
-===================================================== */
+/* =========================================================
+   FOOTER
+   ========================================================= */
 
 .footer {
-position: absolute;
+  position: fixed;
 
-bottom: 28px;
+  left: 50%;
 
-display: flex;
-align-items: center;
-gap: 10px;
+  bottom: calc(10px + var(--safe-bottom));
 
-font-size: 10px;
+  transform: translateX(-50%);
 
-letter-spacing: 4px;
+  display: flex;
 
-color: var(--muted);
+  align-items: center;
 
-z-index: 100;
+  gap: 7px;
+
+  z-index: 100;
+
+  color: var(--muted);
+
+  font-family:
+    "SFMono-Regular",
+    Consolas,
+    monospace;
+
+  font-size: 8px;
+
+  letter-spacing: 1.5px;
+
+  white-space: nowrap;
+
+  pointer-events: none;
 }
 
 .statusDot {
-width: 8px;
-height: 8px;
+  width: 6px;
+  height: 6px;
 
-border-radius: 50%;
+  flex: 0 0 6px;
 
-background: var(--cyan);
+  border-radius: 50%;
 
-box-shadow:
-0 0 10px var(--cyan),
-0 0 20px var(--cyan);
+  background: var(--cyan);
 
-animation:
-statusPulse 1.5s infinite;
+  box-shadow:
+    0 0 10px rgba(34, 211, 238, 0.8);
 }
 
-@keyframes statusPulse {
-
-50% {
-opacity: .4;
-}
-}
-
-/* =====================================================
-LAUNCH OVERLAY
-===================================================== */
+/* =========================================================
+   LAUNCH OVERLAY
+   ========================================================= */
 
 .launchOverlay {
-position: fixed;
-inset: 0;
+  position: fixed;
 
-z-index: 9999;
+  inset: 0;
 
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
+  z-index: 9999;
 
-background:
-rgba(2,4,9,.94);
+  display: flex;
 
-backdrop-filter:
-blur(14px);
+  flex-direction: column;
+
+  justify-content: center;
+
+  align-items: center;
+
+  box-sizing: border-box;
+
+  padding:
+    24px
+    calc(24px + var(--safe-right))
+    24px
+    calc(24px + var(--safe-left));
+
+  text-align: center;
+
+  background:
+    radial-gradient(
+      circle at center,
+      rgba(8, 35, 48, 0.72),
+      rgba(1, 4, 9, 0.98) 70%
+    );
 }
 
 .loaderRing {
-width: 100px;
-height: 100px;
+  width: clamp(60px, 15vw, 84px);
+  height: clamp(60px, 15vw, 84px);
 
-border-radius: 50%;
+  border-radius: 50%;
 
-border:
-4px solid rgba(255,255,255,.08);
+  border: 3px solid rgba(255, 255, 255, 0.08);
 
-border-top:
-4px solid var(--cyan);
+  border-top-color: var(--cyan);
 
-animation:
-loaderSpin 1s linear infinite;
+  box-shadow:
+    0 0 35px rgba(34, 211, 238, 0.12);
 }
 
 .launchOverlay h2 {
-margin-top: 24px;
+  max-width: 90vw;
 
-letter-spacing: 5px;
+  margin: 22px 0 0;
 
-color: white;
+  color: white;
+
+  font-family:
+    "SFMono-Regular",
+    Consolas,
+    monospace;
+
+  font-size: clamp(10px, 3vw, 16px);
+
+  letter-spacing: clamp(1.5px, 0.6vw, 3px);
 }
 
 .launchOverlay p {
-margin-top: 8px;
+  margin: 8px 0 0;
 
-color: var(--muted);
+  color: var(--muted);
 
-letter-spacing: 2px;
+  font-family:
+    "SFMono-Regular",
+    Consolas,
+    monospace;
+
+  font-size: 8px;
+
+  letter-spacing: 1.5px;
 }
 
-@keyframes loaderSpin {
-
-to {
-transform:
-rotate(360deg);
-}
-}
-
-/* =====================================================
-RESPONSIVE
-===================================================== */
+/* =========================================================
+   TABLET
+   ========================================================= */
 
 @media (max-width: 768px) {
+  .portalContainer {
+    padding:
+      calc(62px + var(--safe-top))
+      calc(12px + var(--safe-right))
+      calc(52px + var(--safe-bottom))
+      calc(12px + var(--safe-left));
+  }
 
-.layoutWrapper {
-width: 95%;
-padding: 28px;
+  .layoutWrapper {
+    width: min(94vw, 620px);
+
+    max-height: calc(
+      100dvh - 108px -
+      var(--safe-top) -
+      var(--safe-bottom)
+    );
+
+    padding: 26px 24px;
+  }
+
+  .hudTopLeft,
+  .hudTopRight,
+  .hudBottomLeft,
+  .hudBottomRight {
+    font-size: 7px;
+
+    letter-spacing: 1px;
+  }
 }
 
-.title {
-font-size:
-clamp(3rem, 14vw, 5rem);
-}
-
-.inputField,
-.button {
-padding: 16px;
-}
-}
+/* =========================================================
+   PHONE
+   ========================================================= */
 
 @media (max-width: 480px) {
+  .portalContainer {
+    padding:
+      calc(58px + var(--safe-top))
+      10px
+      calc(48px + var(--safe-bottom))
+      10px;
+  }
 
-.layoutWrapper {
-padding: 22px;
-}
-
-.systemTag {
-font-size: 9px;
-}
-
-.cardHeader {
-font-size: 10px;
-}
-
-.footer {
-letter-spacing: 2px;
-}
-}
-/* =====================================================
-STARFIELD
-===================================================== */
-
-.starField {
-position: absolute;
-inset: 0;
-overflow: hidden;
-z-index: 0;
-}
-
-.starField::before,
-.starField::after {
-content: "";
-position: absolute;
-inset: 0;
-
-background-image:
-radial-gradient(
-white 1px,
-transparent 1px
-);
-
-background-size:
-120px 120px;
-
-opacity: .4;
-}
-
-.starField::before {
-animation:
-starsMove1 90s linear infinite;
-}
-
-.starField::after {
-animation:
-starsMove2 140s linear infinite;
-opacity: .2;
-}
-
-@keyframes starsMove1 {
-from {
-transform:
-translateY(0);
-}
-
-to {
-transform:
-translateY(1000px);
-}
-}
-
-@keyframes starsMove2 {
-from {
-transform:
-translateY(0);
-}
-
-to {
-transform:
-translateY(-1000px);
-}
-}
-
-/* =====================================================
-ENERGY RINGS
-===================================================== */
-
-.energyRing,
-.energyRing2 {
-position: absolute;
-
-top: 50%;
-left: 50%;
-
-border-radius: 50%;
-
-transform:
-translate(-50%, -50%);
-
-border:
-1px solid rgba(34,211,238,.08);
-
-pointer-events: none;
-
-z-index: 1;
-}
-
-.energyRing {
-width: 900px;
-height: 900px;
-
-animation:
-rotateRing 60s linear infinite;
-}
-
-.energyRing2 {
-width: 1200px;
-height: 1200px;
-
-animation:
-rotateRingReverse 90s linear infinite;
-}
-
-@keyframes rotateRing {
-
-from {
-transform:
-translate(-50%, -50%)
-rotate(0deg);
-}
-
-to {
-transform:
-translate(-50%, -50%)
-rotate(360deg);
-}
-}
-
-@keyframes rotateRingReverse {
-
-from {
-transform:
-translate(-50%, -50%)
-rotate(360deg);
-}
-
-to {
-transform:
-translate(-50%, -50%)
-rotate(0deg);
-}
-}
-
-/* =====================================================
-HEX GRID
-===================================================== */
-
-.hexGrid {
-position: absolute;
-inset: 0;
-
-opacity: .08;
-
-background-image:
-linear-gradient(
-30deg,
-rgba(34,211,238,.4) 12%,
-transparent 12.5%,
-transparent 87%,
-rgba(34,211,238,.4) 87.5%
-),
-linear-gradient(
-150deg,
-rgba(34,211,238,.4) 12%,
-transparent 12.5%,
-transparent 87%,
-rgba(34,211,238,.4) 87.5%
-);
-
-background-size:
-120px 70px;
-
-animation:
-hexShift 30s linear infinite;
-
-z-index: 0;
-}
-
-@keyframes hexShift {
-
-from {
-background-position:
-0 0,
-0 0;
-}
-
-to {
-background-position:
-120px 70px,
--120px 70px;
-}
-}
-
-/* =====================================================
-TECH HUD LINES
-===================================================== */
-
-.techLine1,
-.techLine2 {
-position: absolute;
-
-background:
-linear-gradient(
-90deg,
-transparent,
-rgba(34,211,238,.3),
-transparent
-);
-
-z-index: 2;
-}
-
-.techLine1 {
-width: 100%;
-height: 1px;
-
-top: 20%;
-
-animation:
-techSweep 8s infinite;
-}
-
-.techLine2 {
-width: 1px;
-height: 100%;
-
-left: 15%;
-
-background:
-linear-gradient(
-transparent,
-rgba(34,211,238,.3),
-transparent
-);
-
-animation:
-techSweepVertical 10s infinite;
-}
-
-@keyframes techSweep {
-
-0% {
-opacity: 0;
-}
-
-50% {
-opacity: 1;
-}
+  .musicControls {
+    top: calc(8px + var(--safe-top));
+    right: calc(9px + var(--safe-right));
 
-100% {
-opacity: 0;
-}
-}
-
-@keyframes techSweepVertical {
-
-0% {
-opacity: 0;
-}
-
-50% {
-opacity: 1;
-}
-
-100% {
-opacity: 0;
-}
-}
-
-/* =====================================================
-FLOATING PARTICLES
-===================================================== */
-
-.particleLayer {
-position: absolute;
-inset: 0;
-overflow: hidden;
-z-index: 1;
-}
-
-.particle {
-position: absolute;
-
-left: var(--left);
-
-bottom: -20px;
-
-width: 4px;
-height: 4px;
-
-border-radius: 50%;
-
-background: var(--cyan);
-
-box-shadow:
-0 0 8px var(--cyan);
-
-animation:
-floatParticle 12s linear infinite;
-
-animation-delay:
-var(--delay);
-}
-
-@keyframes floatParticle {
-
-from {
-transform:
-translateY(0)
-scale(1);
-
-
-opacity: 0;
-
-}
-
-10% {
-opacity: 1;
-}
-
-90% {
-opacity: 1;
-}
-
-to {
-transform:
-translateY(-120vh)
-scale(0);
-
-
-opacity: 0;
-
-}
-}
+    gap: 5px;
+  }
 
-/* =====================================================
-PANEL BORDER GLOW
-===================================================== */
+  .musicButton {
+    width: 36px;
 
-.layoutWrapper::before {
-content: "";
+    min-height: 36px;
+  }
 
-position: absolute;
-inset: -2px;
+  .trackButton {
+    min-height: 36px;
 
-border-radius: inherit;
+    padding: 0 8px;
 
-background:
-linear-gradient(
-90deg,
-transparent,
-rgba(34,211,238,.25),
-transparent
-);
+    font-size: 7px;
+  }
 
-opacity: .4;
+  .hudTopLeft,
+  .hudTopRight,
+  .hudBottomLeft,
+  .hudBottomRight {
+    display: none;
+  }
 
-z-index: -1;
+  .layoutWrapper {
+    width: 100%;
 
-animation:
-borderGlowMove 6s linear infinite;
-}
-
-@keyframes borderGlowMove {
-
-from {
-background-position:
-0%;
-}
+    max-height: calc(
+      100dvh - 98px -
+      var(--safe-top) -
+      var(--safe-bottom)
+    );
 
-to {
-background-position:
-300%;
-}
-}
+    padding: 20px 14px;
 
-/* =====================================================
-SIDE DECORATION
-===================================================== */
+    border-radius: 18px;
+  }
 
-.layoutWrapper::after {
-content: "";
+  .cornerTL,
+  .cornerTR,
+  .cornerBL,
+  .cornerBR {
+    width: 20px;
+    height: 20px;
+  }
 
-position: absolute;
+  .header {
+    margin-bottom: 15px;
+  }
 
-top: 50%;
-right: -40px;
+  .systemTag {
+    font-size: 7px;
 
-width: 2px;
-height: 120px;
+    letter-spacing: 2px;
+  }
 
-background:
-linear-gradient(
-transparent,
-var(--cyan),
-transparent
-);
+  .title {
+    font-size: clamp(2.35rem, 15vw, 4rem);
+  }
 
-transform:
-translateY(-50%);
-}
+  .divider {
+    margin-top: 14px;
+  }
 
-/* =====================================================
-ENERGY PULSE
-===================================================== */
+  .inputField,
+  .button {
+    height: 48px;
+  }
 
-.portalContainer::before {
-content: "";
+  .inputField {
+    font-size: 11px;
 
-position: absolute;
+    letter-spacing: 0.1em;
+  }
 
-width: 1500px;
-height: 1500px;
+  .button {
+    font-size: 9px;
 
-top: 50%;
-left: 50%;
+    letter-spacing: 1.7px;
+  }
 
-border-radius: 50%;
+  .leaderboardCard {
+    margin-top: 14px;
 
-transform:
-translate(-50%, -50%);
+    padding: 10px;
+  }
 
-border:
-1px solid rgba(34,211,238,.04);
+  .footer {
+    bottom: calc(8px + var(--safe-bottom));
 
-animation:
-pulseWave 8s ease infinite;
+    font-size: 7px;
 
-z-index: 0;
-}
+    letter-spacing: 1px;
+  }
 
-@keyframes pulseWave {
+  .trackSelectorPopup {
+    top: calc(52px + var(--safe-top));
 
-0% {
-transform:
-translate(-50%, -50%)
-scale(.8);
+    right: calc(8px + var(--safe-right));
 
-opacity: .3;
+    width: calc(100vw - 16px);
 
+    max-height: calc(
+      100dvh - 62px -
+      var(--safe-top) -
+      var(--safe-bottom)
+    );
+  }
 }
 
-50% {
-transform:
-translate(-50%, -50%)
-scale(1.2);
-opacity: .08;
+/* =========================================================
+   VERY SMALL PHONES
+   ========================================================= */
 
-}
+@media (max-width: 360px) {
+  .portalContainer {
+    padding:
+      calc(54px + var(--safe-top))
+      8px
+      calc(42px + var(--safe-bottom))
+      8px;
+  }
 
-100% {
-transform:
-translate(-50%, -50%)
-scale(.8);
-opacity: .3;
+  .layoutWrapper {
+    padding: 17px 12px;
 
-}
-}
-/* =====================================================
-DIGITAL RAIN (CYBER FALL EFFECT)
-===================================================== */
-
-.digitalRain {
-position: absolute;
-inset: 0;
-
-opacity: .05;
-
-background-image:
-repeating-linear-gradient(
-to bottom,
-rgba(34,211,238,.6) 0px,
-transparent 2px,
-transparent 6px
-);
-
-background-size:
-100% 6px;
-
-animation:
-rainMove 1.2s linear infinite;
-
-z-index: 1;
-}
+    border-radius: 16px;
+  }
 
-@keyframes rainMove {
-from {
-background-position:
-0 0;
-}
+  .systemTag {
+    font-size: 6.5px;
 
-to {
-background-position:
-0 100px;
-}
-}
+    letter-spacing: 1.7px;
+  }
 
-/* =====================================================
-CIRCUIT OVERLAY (TECH NETWORK LINES)
-===================================================== */
+  .title {
+    font-size: 2.25rem;
+  }
 
-.circuitOverlay {
-position: absolute;
-inset: 0;
+  .inputField,
+  .button {
+    height: 45px;
+  }
 
-opacity: .08;
+  .leaderboardCard {
+    margin-top: 11px;
 
-background-image:
-radial-gradient(circle at 20% 30%, rgba(34,211,238,.6) 2px, transparent 3px),
-radial-gradient(circle at 70% 60%, rgba(139,92,246,.6) 2px, transparent 3px),
-radial-gradient(circle at 40% 80%, rgba(59,130,246,.6) 2px, transparent 3px);
+    padding: 8px;
+  }
 
-background-size:
-200px 200px;
+  .footer {
+    display: none;
+  }
 
-animation:
-circuitShift 20s linear infinite;
+  .trackButton {
+    max-width: 120px;
 
-z-index: 1;
-}
+    overflow: hidden;
 
-@keyframes circuitShift {
-from {
-transform:
-translate(0,0);
-}
+    text-overflow: ellipsis;
 
-to {
-transform:
-translate(100px, 60px);
+    white-space: nowrap;
+  }
 }
-}
-
-/* =====================================================
-HUD CORNER TELEMETRY
-===================================================== */
 
-.hudTopLeft,
-.hudTopRight,
-.hudBottomLeft,
-.hudBottomRight {
-position: absolute;
+/* =========================================================
+   LANDSCAPE PHONES
+   ========================================================= */
 
-font-size: 10px;
+@media (max-height: 600px) {
+  .portalContainer {
+    padding:
+      calc(46px + var(--safe-top))
+      10px
+      calc(38px + var(--safe-bottom))
+      10px;
+  }
 
-letter-spacing: 3px;
+  .layoutWrapper {
+    width: min(650px, 96vw);
 
-color: rgba(34,211,238,.7);
+    max-height: calc(
+      100dvh - 78px -
+      var(--safe-top) -
+      var(--safe-bottom)
+    );
 
-z-index: 60;
+    padding: 14px 22px;
+  }
 
-text-transform: uppercase;
+  .header {
+    margin-bottom: 10px;
+  }
 
-font-family: monospace;
-}
-
-.hudTopLeft {
-top: 12px;
-left: 16px;
-}
-
-.hudTopRight {
-top: 12px;
-right: 16px;
-}
+  .systemTag {
+    margin-bottom: 5px;
+  }
 
-.hudBottomLeft {
-bottom: 12px;
-left: 16px;
-}
+  .title {
+    font-size: clamp(2rem, 8vw, 3.5rem);
+  }
 
-.hudBottomRight {
-bottom: 12px;
-right: 16px;
-}
+  .divider {
+    margin-top: 9px;
+  }
 
-/* =====================================================
-GLASS DEPTH ENHANCEMENT
-===================================================== */
+  .inputField,
+  .button {
+    height: 40px;
+  }
 
-.layoutWrapper {
-transform-style: preserve-3d;
-}
+  .leaderboardCard {
+    margin-top: 9px;
 
-.layoutWrapper:hover {
-transform:
-translateY(-4px)
-scale(1.01);
-
-box-shadow:
-0 0 80px rgba(34,211,238,.18),
-inset 0 0 40px rgba(255,255,255,.03);
-}
+    padding: 8px;
+  }
 
-/* =====================================================
-INPUT MICRO INTERACTION
-===================================================== */
-
-.inputField {
-transition:
-all .25s ease,
-transform .2s ease;
+  .footer {
+    display: none;
+  }
 }
 
-.inputField:focus {
-transform:
-scale(1.01);
-}
+/* =========================================================
+   EXTRA SHORT DEVICES
+   ========================================================= */
 
-/* =====================================================
-BUTTON ENHANCED ENERGY FEEL
-===================================================== */
+@media (max-height: 500px) {
+  .portalContainer {
+    padding-top: 34px;
+    padding-bottom: 30px;
+  }
 
-.button {
-box-shadow:
-0 0 0 rgba(34,211,238,0);
-}
+  .layoutWrapper {
+    padding: 10px 18px;
 
-.button:hover {
-box-shadow:
-0 0 25px rgba(34,211,238,.35),
-0 0 60px rgba(34,211,238,.15);
-}
+    max-height: calc(100dvh - 50px);
+  }
 
-/* =====================================================
-BACKGROUND PARALLAX DEPTH
-===================================================== */
+  .header {
+    margin-bottom: 7px;
+  }
 
-.portalContainer > div {
-will-change: transform;
-}
+  .systemTag {
+    margin-bottom: 3px;
 
-/* subtle depth layering */
-.grid {
-filter: brightness(1.1);
-}
+    font-size: 6px;
+  }
 
-.aurora {
-mix-blend-mode: screen;
-}
+  .title {
+    font-size: 2rem;
+  }
 
-/* =====================================================
-FINAL AMBIENT GLOW VIGNETTE
-===================================================== */
+  .divider {
+    margin-top: 7px;
+  }
 
-.portalContainer::after {
-content: "";
+  .inputField,
+  .button {
+    height: 36px;
+  }
 
-position: absolute;
-inset: 0;
+  .button {
+    margin-top: 6px;
+  }
 
-background:
-radial-gradient(
-circle at center,
-transparent 40%,
-rgba(0,0,0,.6) 100%
-);
+  .leaderboardCard {
+    margin-top: 6px;
 
-z-index: 2;
-pointer-events: none;
+    padding: 6px;
+  }
 }
 
-/* =====================================================
-PREMIUM TOUCH: HOVER SOUND-LIKE FEEL (VISUAL ONLY)
-===================================================== */
+/* =========================================================
+   ACCESSIBILITY
+   ========================================================= */
 
-.layoutWrapper:active {
-transform:
-scale(.995);
+@media (prefers-reduced-motion: reduce) {
+  .portalContainer,
+  .portalContainer *,
+  .portalContainer *::before,
+  .portalContainer *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
 }
 
-/* =====================================================
-MOBILE POLISH
-===================================================== */
-
-@media (max-width: 768px) {
-
-.hudTopLeft,
-.hudTopRight,
-.hudBottomLeft,
-.hudBottomRight {
-font-size: 8px;
-letter-spacing: 2px;
-}
+/* =========================================================
+   PRINT / WEIRD VIEWPORT PROTECTION
+   ========================================================= */
 
-.cursorGlow {
-width: 300px;
-height: 300px;
-}
-}
-.trackSelectorPopup {
-  position: fixed;
-  top: 60px;
-  right: 20px;
-  width: 200px;
-  background: rgba(10, 15, 20, 0.9);
-  border: 1px solid #00f2ff;
-  padding: 10px;
-  z-index: 200;
-  backdrop-filter: blur(5px);
-}
+@media print {
+  .portalContainer {
+    position: relative;
 
-.trackOption {
-  display: block;
-  width: 100%;
-  padding: 8px;
-  margin: 5px 0;
-  background: rgba(0, 242, 255, 0.1);
-  border: 1px solid #00f2ff;
-  color: #fff;
-  font-family: monospace;
-  cursor: pointer;
-}
+    width: 100%;
+    height: 100%;
 
-.trackOption:hover {
-  background: #00f2ff;
-  color: #000;
+    overflow: hidden;
+  }
 }
